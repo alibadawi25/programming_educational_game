@@ -15,6 +15,10 @@ run/main_scene="res://room.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+YtDlp="*res://addons/godot-yt-dlp/src/yt_dlp.gd"
+
 [display]
 
 window/size/viewport_width=1920
@@ -26,6 +30,10 @@ window/stretch/aspect="expand"
 [dotnet]
 
 project/assembly_name="ProgrammingEducationalGame"
+
+[editor_plugins]
+
+enabled=PackedStringArray()
 
 [input]
 

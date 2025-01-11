@@ -427,36 +427,42 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rnixj"]
-radius = 7.0
-height = 20.0
+radius = 36.25
+height = 103.75
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(1.6, 1.6)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_lfoky")
 animation = &"idle"
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_18pro")
 animation = &"idle"
 
 [node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_sg40a")
 animation = &"idle"
 
 [node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_wa3xa")
 animation = &"idle"
 
 [node name="AnimatedSprite2D5" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_tlmp7")
 animation = &"idle"
 
 [node name="AnimatedSprite2D6" type="AnimatedSprite2D" parent="."]
 visible = false
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_4a5gg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 6.25)
+position = Vector2(1.25, 28.125)
 shape = SubResource("CapsuleShape2D_rnixj")
