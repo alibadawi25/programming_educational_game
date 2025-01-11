@@ -1,0 +1,571 @@
+[gd_scene load_steps=11 format=3 uid="uid://dr7quioi2l4du"]
+
+[ext_resource type="Script" path="res://youtube.gd" id="1_alir5"]
+[ext_resource type="StyleBox" uid="uid://bifefuqva8cjk" path="res://search_bar.tres" id="2_f1ul5"]
+[ext_resource type="StyleBox" uid="uid://r7h5xlvjorr5" path="res://searchButton.tres" id="3_d0iad"]
+[ext_resource type="Texture2D" uid="uid://b76ubxqs8ab55" path="res://search-svgrepo-com.svg" id="4_5ojay"]
+[ext_resource type="Texture2D" uid="uid://ccs2jn0b7rhyo" path="res://Youtube-Logo-2017.png" id="5_4nwds"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_36i14"]
+content_margin_left = 24.0
+content_margin_right = 24.0
+bg_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.321569, 0.321569, 0.321569, 1)
+corner_radius_top_left = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r1uas"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o67h7"]
+bg_color = Color(0.235294, 0.235294, 0.235294, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.133333, 0.133333, 0.133333, 1)
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_1x5vo"]
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_tluhu"]
+font_size = 751
+
+[node name="Youtube" type="Node2D"]
+position = Vector2(960, 540)
+script = ExtResource("1_alir5")
+
+[node name="Header" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Header"]
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = -412.0
+color = Color(0.133333, 0.133333, 0.133333, 1)
+
+[node name="LineEdit" type="LineEdit" parent="Header/ColorRect"]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 32.0
+offset_right = 1448.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("2_f1ul5")
+theme_override_styles/focus = SubResource("StyleBoxFlat_36i14")
+theme_override_styles/read_only = ExtResource("2_f1ul5")
+placeholder_text = "Search"
+
+[node name="Button" type="Button" parent="Header/ColorRect"]
+layout_mode = 0
+offset_left = 1448.0
+offset_top = 31.9999
+offset_right = 1512.0
+offset_bottom = 95.9999
+theme_override_styles/normal = ExtResource("3_d0iad")
+theme_override_styles/hover = ExtResource("3_d0iad")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_r1uas")
+theme_override_styles/disabled = ExtResource("3_d0iad")
+theme_override_styles/focus = SubResource("StyleBoxFlat_o67h7")
+
+[node name="TextureRect" type="TextureRect" parent="Header/ColorRect/Button"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 15.9999
+offset_right = 48.0
+offset_bottom = 47.9999
+texture = ExtResource("4_5ojay")
+expand_mode = 1
+
+[node name="TextureButton" type="TextureButton" parent="Header/ColorRect"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 248.0
+offset_bottom = 112.0
+texture_normal = ExtResource("5_4nwds")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Body"]
+offset_left = -960.0
+offset_top = -412.0
+offset_right = 960.0
+offset_bottom = 612.0
+color = Color(0.054902, 0.054902, 0.054902, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Body/ColorRect"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 952.0
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Body/ColorRect/ScrollContainer"]
+layout_mode = 2
+
+[node name="Video_object" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(272, 160)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object2" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(720, 160)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object2"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object2/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object2"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object2/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object3" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(1168, 160)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object3"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object3/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object3"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object3/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object4" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(1616, 160)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object4"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object4/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object4"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object4/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object5" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(272, 480)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object5"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object5/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object5"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object5/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object6" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(720, 480)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object6"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object6/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object6"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object6/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object7" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(1168, 480)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object7"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object7/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object7"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object7/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object8" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(1616, 480)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object8"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object8/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object8"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object8/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object9" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(272, 800)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object9"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object9/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object9"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object9/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object10" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(720, 800)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object10"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object10/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object10"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object10/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object11" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(1168, 800)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object11"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object11/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object11"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object11/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="Video_object12" type="Node2D" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+position = Vector2(1616, 800)
+
+[node name="video" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object12"]
+offset_left = -176.0
+offset_top = -96.0
+offset_right = 208.0
+offset_bottom = 120.0
+
+[node name="TextureRect" type="TextureRect" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object12/video"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Title" type="Button" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object12"]
+offset_left = -176.0
+offset_top = 120.0
+offset_right = 144.0
+offset_bottom = 176.0
+flat = true
+alignment = 0
+clip_text = true
+
+[node name="Label" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object12/Title"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 320.0
+offset_bottom = 52.0
+label_settings = SubResource("LabelSettings_1x5vo")
+autowrap_mode = 2
+
+[node name="filler" type="Label" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+show_behind_parent = true
+z_index = -100
+layout_mode = 2
+text = "lol"
+label_settings = SubResource("LabelSettings_tluhu")
+metadata/_edit_lock_ = true
+
+[node name="video_not_found_popup" type="AcceptDialog" parent="Body/ColorRect/ScrollContainer/VBoxContainer"]
+title = ""
+initial_position = 2
+size = Vector2i(157, 100)
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+popup_window = true
+extend_to_title = true
+ok_button_text = "Ok"
+dialog_text = "Video is not found"
+
+[connection signal="pressed" from="Header/ColorRect/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Header/ColorRect/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object/video" to="." method="_on_video_1_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object/Title" to="." method="_on_video_1_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object2/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object2/video" to="." method="_on_video_2_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object2/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object3/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object3/video" to="." method="_on_video_3_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object3/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object4/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object4/video" to="." method="_on_video_4_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object4/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object5/video" to="." method="_on_video_5_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object5/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object5/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object6/video" to="." method="_on_video_6_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object6/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object6/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object7/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object7/video" to="." method="_on_video_7_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object7/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object8/video" to="." method="_on_video_8_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object8/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object8/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object9/video" to="." method="_on_video_9_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object9/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object9/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object10/video" to="." method="_on_video_10_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object10/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object10/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object11/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object11/video" to="." method="_on_video_11_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object11/Title" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object12/video" to="." method="_on_video_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object12/video" to="." method="_on_video_12_pressed"]
+[connection signal="pressed" from="Body/ColorRect/ScrollContainer/VBoxContainer/Video_object12/Title" to="." method="_on_button_pressed"]

@@ -14,7 +14,7 @@ extends Node2D
 
 var isLoading = true
 var time_accumulator = 0.0
-var loading_time = 3.0 
+var loading_time = 1.0 
 
 func _process(delta):
 	if line_edit.text != "":
@@ -33,18 +33,23 @@ func _process(delta):
 			apps_buttons.visible = true
 			
 	if Input.is_action_just_pressed("exit"):
+		var coordinates = "768 184"
+		var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
+		if file:
+			file.store_line(coordinates)  # This will overwrite the file content
+			file.close()  # Always close the file when done
+		else:
+			print("Failed to open file.")
 		get_tree().quit()
 
-
-func _on_button_pressed():
-	print(line_edit.text)
-	line_edit.text=""
 
 
 func _on_utube_pressed():
 	apps_buttons.visible = false
 	apps.visible = true
 	youtube.visible = true
+	youtube.clear_videos()
+	youtube.load_videos(youtube.links)
 
 
 func _on_vs_code_pressed():
@@ -55,6 +60,8 @@ func open_vscode():
 	var project_path = ProjectSettings.globalize_path("res://code.py")  # Path to the Godot project
 	var command = "code" + " " + project_path  # Command to open VS Code with the project folder
 	var output = []
+	var clear_command = "type nul > " + project_path
+	OS.execute("CMD.exe", ["/C", clear_command], [])
 	OS.execute("CMD.exe", ["/C", command], output)
 
 

@@ -6,7 +6,7 @@ extends CharacterBody2D
 @onready var animated_sprite_2d_4 = $AnimatedSprite2D4
 @onready var animated_sprite_2d_5 = $AnimatedSprite2D5
 @onready var animated_sprite_2d_6 = $AnimatedSprite2D6
-const SPEED = 180.0
+const SPEED = 200.0
 
 func _physics_process(delta):
 	# Get the input direction
