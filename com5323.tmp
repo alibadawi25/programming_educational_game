@@ -12,9 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dr7quioi2l4du" path="res://youtube.tscn" id="14_148xh"]
 [ext_resource type="Texture2D" uid="uid://cyvrscxuyxc3" path="res://pngwing.com (5).png" id="14_82582"]
 [ext_resource type="FontFile" uid="uid://bnwk4n3m2cvod" path="res://Stormfaze.otf" id="15_swss2"]
-[ext_resource type="FontFile" uid="uid://i511ycfmw8yn" path="res://toxigenesis bd.otf" id="15_xqtup"]
 [ext_resource type="StyleBox" uid="uid://chdfwgiuaqgc5" path="res://Advance_button.tres" id="16_6ks8o"]
-[ext_resource type="CodeHighlighter" uid="uid://qqousrymjrcc" path="res://code.tres" id="16_ia211"]
 [ext_resource type="FontFile" uid="uid://dq8kvjifh2xmf" path="res://joystix monospace.otf" id="16_yn3t0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4koo3"]
@@ -70,6 +68,11 @@ bg_color = Color(0.6, 0.6, 0.6, 0.411765)
 [sub_resource type="LabelSettings" id="LabelSettings_r2ad5"]
 font = ExtResource("16_yn3t0")
 font_size = 13
+
+[sub_resource type="GDScript" id="GDScript_j0den"]
+
+[sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_n8mst"]
+script = SubResource("GDScript_j0den")
 
 [sub_resource type="LabelSettings" id="LabelSettings_lyv5q"]
 font = ExtResource("16_yn3t0")
@@ -130,14 +133,12 @@ ignore_texture_size = true
 stretch_mode = 4
 
 [node name="Apps" type="Node2D" parent="screen"]
-visible = false
 
 [node name="Youtube" parent="screen/Apps" instance=ExtResource("14_148xh")]
 visible = false
 position = Vector2(0, 64)
 
 [node name="freelance_app" type="Node2D" parent="screen/Apps"]
-visible = false
 position = Vector2(0, 68)
 
 [node name="freelancing_home" type="ColorRect" parent="screen/Apps/freelance_app"]
@@ -241,7 +242,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Task_submission" type="ColorRect" parent="screen/Apps/freelance_app"]
-visible = false
 offset_left = -960.0
 offset_top = -544.0
 offset_right = 960.0
@@ -269,9 +269,9 @@ vertical_alignment = 1
 [node name="submit_button" type="Button" parent="screen/Apps/freelance_app/Task_submission"]
 layout_mode = 0
 offset_left = 888.0
-offset_top = 768.0
+offset_top = 720.0
 offset_right = 1032.0
-offset_bottom = 816.0
+offset_bottom = 768.0
 text = "Submit"
 
 [node name="FileDialog" type="FileDialog" parent="screen/Apps/freelance_app/Task_submission"]
@@ -312,51 +312,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="CodeEdit" type="CodeEdit" parent="screen/Apps/freelance_app/Task_submission"]
-modulate = Color(1, 1, 1, 0.956863)
+[node name="TextEdit" type="TextEdit" parent="screen/Apps/freelance_app/Task_submission"]
 layout_mode = 0
-offset_left = 576.0
-offset_top = 192.0
-offset_right = 1344.0
-offset_bottom = 576.0
-theme_override_colors/background_color = Color(0.298039, 0, 0.615686, 0.282353)
-theme_override_fonts/font = ExtResource("15_xqtup")
-theme_override_font_sizes/font_size = 20
-placeholder_text = "code here..."
-caret_blink = true
-syntax_highlighter = ExtResource("16_ia211")
-draw_tabs = true
-gutters_draw_line_numbers = true
-code_completion_enabled = true
-indent_automatic = true
-auto_brace_completion_enabled = true
-auto_brace_completion_highlight_matching = true
-
-[node name="run" type="Button" parent="screen/Apps/freelance_app/Task_submission/CodeEdit"]
-layout_mode = 0
-offset_left = 704.0
-offset_right = 768.0
-offset_bottom = 64.0
-theme_override_fonts/font = ExtResource("16_yn3t0")
-theme_override_font_sizes/font_size = 32
-text = "▶"
-
-[node name="ErrorDialog" type="AcceptDialog" parent="screen/Apps/freelance_app/Task_submission"]
-title = ""
-size = Vector2i(221, 80)
-unresizable = true
-always_on_top = true
-popup_window = true
-theme_override_styles/panel = SubResource("StyleBoxFlat_1m080")
-ok_button_text = "close"
-
-[node name="command_line" type="TextEdit" parent="screen/Apps/freelance_app/Task_submission"]
-layout_mode = 0
-offset_left = 576.0
-offset_top = 576.0
-offset_right = 1344.0
-offset_bottom = 736.0
-editable = false
+offset_left = 640.0
+offset_top = 256.0
+offset_right = 1280.0
+offset_bottom = 640.0
+syntax_highlighter = SubResource("SyntaxHighlighter_n8mst")
 
 [node name="ColorRect" type="ColorRect" parent="screen/Apps"]
 offset_left = -960.0
@@ -388,8 +350,6 @@ vertical_alignment = 1
 [connection signal="pressed" from="screen/Apps/freelance_app/freelancing_home/advance_button" to="." method="_on_advance_button_pressed"]
 [connection signal="pressed" from="screen/Apps/freelance_app/freelancing_tasks/Node2D/Button" to="." method="_on_task_button_pressed"]
 [connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/submit_button" to="." method="_on_submit_button_pressed"]
-[connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/submit_button" to="." method="_on_run_pressed"]
 [connection signal="file_selected" from="screen/Apps/freelance_app/Task_submission/FileDialog" to="." method="_on_file_selected"]
 [connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/vs_code" to="." method="_on_vs_code_pressed"]
-[connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/CodeEdit/run" to="." method="_on_run_pressed"]
 [connection signal="pressed" from="screen/Apps/ColorRect/close_button" to="." method="_on_close_button_pressed"]

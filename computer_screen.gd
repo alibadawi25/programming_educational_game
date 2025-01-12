@@ -11,12 +11,72 @@ extends Node2D
 @onready var task_submission = $screen/Apps/freelance_app/Task_submission
 @onready var freelancing_home = $screen/Apps/freelance_app/freelancing_home
 @onready var apps = $screen/Apps
+@onready var code_edit = $screen/Apps/freelance_app/Task_submission/CodeEdit
+@onready var error_dialog = $screen/Apps/freelance_app/Task_submission/ErrorDialog
+@onready var command_line = $screen/Apps/freelance_app/Task_submission/command_line
 
+# Boolean-related keywords in Python
+const BOOL_KEYWORDS = [
+	"True", "False", "None"
+]
+
+# Logical operators in Python
+const LOGICAL_OPERATORS = [
+	"and", "or", "not"
+]
+
+# Control flow keywords in Python
+const CONTROL_FLOW_KEYWORDS = [
+	"if", "elif", "else", "for", "while", "continue", "break", "pass", 
+	"return", "raise", "try", "except", "finally"
+]
+
+# Data handling and special keywords in Python
+const DATA_KEYWORDS = [
+	"None", "lambda", "yield", "del"
+]
+
+# Definition-related keywords in Python
+const DEFINITION_KEYWORDS = [
+	"def", "class", "global", "nonlocal", "import", "as"
+]
+
+# Async programming keywords in Python
+const ASYNC_KEYWORDS = [
+	"async", "await"
+]
+
+const CODE = preload("res://code.tres")
+var old_content = ""
 var isLoading = true
 var time_accumulator = 0.0
 var loading_time = 1.0 
+var is_vs_code_on = false
+
+func _ready():
+	
+	for keyword in BOOL_KEYWORDS:
+		CODE.add_keyword_color(keyword, Color(0, 0.49, 0.176))
+	for keyword in CONTROL_FLOW_KEYWORDS:
+		CODE.add_keyword_color(keyword, Color(0, 0.49, 0.761))
+	for keyword in LOGICAL_OPERATORS:
+		CODE.add_keyword_color(keyword, Color(0, 0.271, 0.243))
+	CODE.add_color_region('"','"', Color(0.714, 0.698, 0.878))
+	CODE.add_color_region("'","'", Color(0.714, 0.698, 0.878))
+	CODE.add_color_region('#','', Color(0.62, 0.62, 0.62))
+	var file = FileAccess.open("res://code.py", FileAccess.WRITE)
+	if file:
+		var content = ""
+		file.store_string(content)
+		file.close()
+		print("Content successfully written to file: ", "res://code.py")
+	else:
+		print("Error: Unable to open file for writing at ", "res://code.py")
 
 func _process(delta):
+	read_py_file()
+	if is_vs_code_on:
+		read_py_file_and_update()
 	if line_edit.text != "":
 		line_edit.clear_button_enabled = true
 	else:
@@ -42,7 +102,36 @@ func _process(delta):
 			print("Failed to open file.")
 		get_tree().quit()
 
+func write_in_py_file():
+	old_content = code_edit.text
+	var file = FileAccess.open("res://code.py", FileAccess.WRITE)
+	if file:
+		var content = code_edit.text
+		file.store_string(content)
+		file.close()
+		print("Content successfully written to file: ", "res://code.py")
+	else:
+		print("Error: Unable to open file for writing at ", "res://code.py")
 
+func read_py_file_and_update():
+	var file = FileAccess.open("res://code.py", FileAccess.READ)
+	if file:
+		var content = file.get_as_text()
+		file.close()
+		code_edit.text = content
+	else:
+		print("Error: Unable to open file for reading at ", "res://code.py")
+
+func read_py_file():
+	var file = FileAccess.open("res://code.py", FileAccess.READ)
+	if file:
+		var content = file.get_as_text()
+		file.close()
+		if content != old_content:
+			is_vs_code_on = true
+			old_content = content
+	else:
+		print("Error: Unable to open file for reading at ", "res://code.py")
 
 func _on_utube_pressed():
 	apps_buttons.visible = false
@@ -56,12 +145,12 @@ func _on_vs_code_pressed():
 	open_vscode()
 
 func open_vscode():
+	is_vs_code_on = true
 	# You can open a specific file or the whole project folder.
 	var project_path = ProjectSettings.globalize_path("res://code.py")  # Path to the Godot project
 	var command = "code" + " " + project_path  # Command to open VS Code with the project folder
 	var output = []
-	var clear_command = "type nul > " + project_path
-	OS.execute("CMD.exe", ["/C", clear_command], [])
+	write_in_py_file()
 	OS.execute("CMD.exe", ["/C", command], output)
 
 
@@ -70,9 +159,26 @@ func _on_advance_button_pressed():
 
 
 func _on_submit_button_pressed():
-	file_dialog.visible = true
-	file_dialog.current_file = "code.py"
-	file_dialog.popup_centered() 
+	var path = "C:\\Users\\aliba\\OneDrive\\Documents\\ProgrammingEducationalGame\\code.py"
+	var command = "python " + path
+	var output = []
+	write_in_py_file()
+	OS.execute("CMD.exe", ["/C", command], output, true)
+	print(array_to_string(output))
+	#if "Error" in array_to_string(output):
+#
+		#error_dialog.dialog_text = array_to_string(output)
+		#error_dialog.visible = true
+		#error_dialog.popup_centered()
+		#is_vs_code_on = false
+	if array_to_string(output).to_lower() == "hello world\r\n":
+		task_submission.visible = false
+		accept_dialog.visible
+		accept_dialog.popup_centered() 
+		accept_dialog.position[1]=accept_dialog.position[1]-60
+	#file_dialog.visible = true
+	#file_dialog.current_file = "code.py"
+	#file_dialog.popup_centered() 
 
 func _on_file_selected(path):
 	var output = []
@@ -99,6 +205,10 @@ func _on_cashing_app_pressed():
 
 
 func _on_task_button_pressed():
+	code_edit.text=""
+
+	write_in_py_file()
+	is_vs_code_on = false
 	task_submission.visible = true
 
 
@@ -106,6 +216,8 @@ func _on_close_button_pressed():
 	if freelance_app.visible:
 		freelance_app.visible = false
 		freelancing_home.visible = true
+		freelancing_tasks.visible = false
+		task_submission.visible = false
 		apps.visible = false
 		apps_buttons.visible = true
 	elif youtube.visible:
@@ -116,3 +228,15 @@ func _on_close_button_pressed():
 
 func _on_power_off_pressed():
 	get_tree().change_scene_to_file("res://room.tscn")
+
+
+func _on_text_edit_mouse_entered():
+	is_vs_code_on = false
+
+func _on_run_pressed():
+	var path = "C:\\Users\\aliba\\OneDrive\\Documents\\ProgrammingEducationalGame\\code.py"
+	var command = "python " + path
+	var output = []
+	write_in_py_file()
+	OS.execute("CMD.exe", ["/C", command], output, true)
+	command_line.text =array_to_string(output)

@@ -52,11 +52,12 @@ func clear_videos():
 func _on_button_pressed():
 	load_videos(links)
 	var text = line_edit.text
-	var filteredLinks = links.filter(func(element):
-		return text.to_lower() in element[0].to_lower()
-	)
-	clear_videos()
-	load_videos(filteredLinks)
+	if text != "":
+		var filteredLinks = links.filter(func(element):
+			return text.to_lower() in element[0].to_lower()
+		)
+		clear_videos()
+		load_videos(filteredLinks)
 
 
 # Generalized function for all video objects
