@@ -6,7 +6,9 @@ var levels = [
 		"title": "Print \"Hello World\"!",
 		"description": "Write a code that outputs the sentence \"Hello World\"",
 		"test_cases":[],
-		"expected_outputs": "Hello World"
+		"expected_outputs": "Hello World",
+		"is_solved": false,
+		"outcome": 5 
 	},
 	{
 		"id": 2,
@@ -19,7 +21,9 @@ var levels = [
 		"expected_outputs": [
 			"Hello World",
 			"Love you"
-		]
+		],
+		"is_solved": false,
+		"outcome": 10
 	},
 	{
 		"id": 3,
@@ -32,6 +36,9 @@ var levels = [
 		"expected_outputs": [
 			8,
 			9
-		]
+		],
+		"is_solved": false,
+		"outcome": 15
 	}
 ]
+

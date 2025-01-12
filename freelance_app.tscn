@@ -72,7 +72,6 @@ function_color = Color(0.54902, 0.694118, 1, 1)
 [node name="freelance_app" type="Node2D"]
 position = Vector2(960, 544)
 script = ExtResource("1_jomei")
-metadata/_edit_group_ = true
 
 [node name="freelancing_home" type="ColorRect" parent="."]
 offset_left = -960.0
@@ -122,7 +121,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="freelancing_tasks" type="ColorRect" parent="."]
-visible = false
 offset_left = -960.0
 offset_top = -544.0
 offset_right = 960.0
@@ -146,30 +144,109 @@ text = "Tasks:"
 label_settings = SubResource("LabelSettings_udun5")
 vertical_alignment = 2
 
-[node name="Node2D" type="Node2D" parent="freelancing_tasks"]
+[node name="task_object" type="Node2D" parent="freelancing_tasks"]
 position = Vector2(128, 320)
+metadata/_edit_group_ = true
 
-[node name="Button" type="Button" parent="freelancing_tasks/Node2D"]
+[node name="Button" type="Button" parent="freelancing_tasks/task_object"]
 offset_top = -64.0
 offset_right = 448.0
 offset_bottom = 64.0
 
-[node name="Label" type="Label" parent="freelancing_tasks/Node2D/Button"]
+[node name="Label" type="Label" parent="freelancing_tasks/task_object/Button"]
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 128.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_vb71k")
-text = "make a program that prints \"Hello World\"!!"
 label_settings = SubResource("LabelSettings_l2l3x")
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Label2" type="Label" parent="freelancing_tasks/Node2D/Button"]
+[node name="Label2" type="Label" parent="freelancing_tasks/task_object/Button"]
 layout_mode = 0
 offset_left = 320.0
 offset_right = 448.0
 offset_bottom = 128.0
-text = "5💲"
+label_settings = SubResource("LabelSettings_1gld5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="task_object2" type="Node2D" parent="freelancing_tasks"]
+position = Vector2(128, 480)
+metadata/_edit_group_ = true
+
+[node name="Button" type="Button" parent="freelancing_tasks/task_object2"]
+offset_top = -64.0
+offset_right = 448.0
+offset_bottom = 64.0
+
+[node name="Label" type="Label" parent="freelancing_tasks/task_object2/Button"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 128.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vb71k")
+label_settings = SubResource("LabelSettings_l2l3x")
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label2" type="Label" parent="freelancing_tasks/task_object2/Button"]
+layout_mode = 0
+offset_left = 320.0
+offset_right = 448.0
+offset_bottom = 128.0
+label_settings = SubResource("LabelSettings_1gld5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="task_object3" type="Node2D" parent="freelancing_tasks"]
+position = Vector2(128, 640)
+
+[node name="Button" type="Button" parent="freelancing_tasks/task_object3"]
+offset_top = -64.0
+offset_right = 448.0
+offset_bottom = 64.0
+
+[node name="Label" type="Label" parent="freelancing_tasks/task_object3/Button"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 128.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vb71k")
+label_settings = SubResource("LabelSettings_l2l3x")
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label2" type="Label" parent="freelancing_tasks/task_object3/Button"]
+layout_mode = 0
+offset_left = 320.0
+offset_right = 448.0
+offset_bottom = 128.0
+label_settings = SubResource("LabelSettings_1gld5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="task_object4" type="Node2D" parent="freelancing_tasks"]
+position = Vector2(128, 808)
+metadata/_edit_group_ = true
+
+[node name="Button" type="Button" parent="freelancing_tasks/task_object4"]
+offset_top = -64.0
+offset_right = 448.0
+offset_bottom = 64.0
+
+[node name="Label" type="Label" parent="freelancing_tasks/task_object4/Button"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 128.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vb71k")
+label_settings = SubResource("LabelSettings_l2l3x")
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label2" type="Label" parent="freelancing_tasks/task_object4/Button"]
+layout_mode = 0
+offset_left = 320.0
+offset_right = 448.0
+offset_bottom = 128.0
 label_settings = SubResource("LabelSettings_1gld5")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -255,9 +332,6 @@ offset_bottom = 576.0
 theme_override_colors/background_color = Color(0.298039, 0, 0.615686, 0.282353)
 theme_override_fonts/font = ExtResource("7_vihgh")
 theme_override_font_sizes/font_size = 20
-text = "d
-d
-"
 placeholder_text = "code here..."
 caret_blink = true
 syntax_highlighter = SubResource("CodeHighlighter_ial6d")
@@ -309,7 +383,10 @@ editable = false
 script = ExtResource("8_svkrs")
 
 [connection signal="pressed" from="freelancing_home/advance_button" to="." method="_on_advance_button_pressed"]
-[connection signal="pressed" from="freelancing_tasks/Node2D/Button" to="." method="_on_task_button_pressed"]
+[connection signal="pressed" from="freelancing_tasks/task_object/Button" to="." method="_on_task_1_pressed"]
+[connection signal="pressed" from="freelancing_tasks/task_object2/Button" to="." method="_on_task_2_pressed"]
+[connection signal="pressed" from="freelancing_tasks/task_object3/Button" to="." method="_on_task_3_pressed"]
+[connection signal="pressed" from="freelancing_tasks/task_object4/Button" to="." method="_on_task_4_pressed"]
 [connection signal="pressed" from="Task_submission/submit_button" to="." method="_on_submit_button_pressed"]
 [connection signal="file_selected" from="Task_submission/FileDialog" to="." method="_on_file_selected"]
 [connection signal="pressed" from="Task_submission/vs_code" to="." method="_on_vs_code_pressed"]

@@ -1,76 +1,15 @@
-[gd_scene load_steps=30 format=3 uid="uid://c12tcsrham0oa"]
+[gd_scene load_steps=12 format=3 uid="uid://c12tcsrham0oa"]
 
 [ext_resource type="Script" path="res://computer_screen.gd" id="1_nua6c"]
 [ext_resource type="Texture2D" uid="uid://dsu721o3alker" path="res://laptop_black_screen.png" id="1_xjxrj"]
 [ext_resource type="Texture2D" uid="uid://b6j6qday55sj1" path="res://loading2.png" id="2_x7h3j"]
-[ext_resource type="Texture2D" uid="uid://cm405pqnssr4t" path="res://vsCode.png" id="4_c7wb0"]
-[ext_resource type="Texture2D" uid="uid://w1gub1g0iq6m" path="res://vsCodeLogo.png" id="4_xoa7m"]
 [ext_resource type="Texture2D" uid="uid://dr5kxsvkaqkwd" path="res://youtubeLogo.png" id="6_s1imd"]
 [ext_resource type="Texture2D" uid="uid://d2kmir8gsg3e8" path="res://youtubeLogoPressed.png" id="7_yvelp"]
 [ext_resource type="Texture2D" uid="uid://xuqv753ygu4u" path="res://pngwing.com (4).png" id="8_aqjcx"]
 [ext_resource type="Texture2D" uid="uid://cnc6pvksau3bm" path="res://pngegg (1).png" id="9_xmo4l"]
 [ext_resource type="PackedScene" uid="uid://dr7quioi2l4du" path="res://youtube.tscn" id="14_148xh"]
-[ext_resource type="Texture2D" uid="uid://cyvrscxuyxc3" path="res://pngwing.com (5).png" id="14_82582"]
-[ext_resource type="FontFile" uid="uid://bnwk4n3m2cvod" path="res://Stormfaze.otf" id="15_swss2"]
-[ext_resource type="FontFile" uid="uid://i511ycfmw8yn" path="res://toxigenesis bd.otf" id="15_xqtup"]
-[ext_resource type="StyleBox" uid="uid://chdfwgiuaqgc5" path="res://Advance_button.tres" id="16_6ks8o"]
-[ext_resource type="CodeHighlighter" uid="uid://qqousrymjrcc" path="res://code.tres" id="16_ia211"]
 [ext_resource type="FontFile" uid="uid://dq8kvjifh2xmf" path="res://joystix monospace.otf" id="16_yn3t0"]
-[ext_resource type="Script" path="res://levels.gd" id="17_h4m7q"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_4koo3"]
-font = ExtResource("15_swss2")
-font_size = 38
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ir5qr"]
-bg_color = Color(0.419608, 0.419608, 0.419608, 0.294118)
-corner_radius_top_left = 300
-corner_radius_top_right = 300
-corner_radius_bottom_right = 300
-corner_radius_bottom_left = 300
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hugfr"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_bottom = 5
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_2c1kd"]
-font = ExtResource("15_swss2")
-font_size = 40
-shadow_size = 6
-shadow_color = Color(0, 0, 0, 0.588235)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_67i75"]
-content_margin_left = 12.0
-content_margin_right = 12.0
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="LabelSettings" id="LabelSettings_bvkp8"]
-font = ExtResource("15_swss2")
-font_size = 18
-
-[sub_resource type="LabelSettings" id="LabelSettings_fc6sm"]
-font = ExtResource("15_swss2")
-font_size = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2fweq"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_bottom = 5
-
-[sub_resource type="LabelSettings" id="LabelSettings_r4g3y"]
-font = ExtResource("15_swss2")
-font_size = 46
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1m080"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 10.0
-bg_color = Color(0.6, 0.6, 0.6, 0.411765)
-
-[sub_resource type="LabelSettings" id="LabelSettings_r2ad5"]
-font = ExtResource("16_yn3t0")
-font_size = 13
+[ext_resource type="PackedScene" uid="uid://nrwuwt26y6wb" path="res://freelance_app.tscn" id="18_f35jw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lyv5q"]
 font = ExtResource("16_yn3t0")
@@ -91,21 +30,11 @@ texture = ExtResource("2_x7h3j")
 [node name="AppsButtons" type="Node2D" parent="screen"]
 visible = false
 
-[node name="vs_code" type="TextureButton" parent="screen/AppsButtons"]
-offset_left = -944.0
-offset_top = -524.0
-offset_right = -879.0
-offset_bottom = -460.0
-texture_normal = ExtResource("4_c7wb0")
-texture_pressed = ExtResource("4_xoa7m")
-ignore_texture_size = true
-stretch_mode = 4
-
 [node name="utube" type="TextureButton" parent="screen/AppsButtons"]
-offset_left = -944.0
-offset_top = -420.0
-offset_right = -780.0
-offset_bottom = -261.0
+offset_left = -936.0
+offset_top = -516.0
+offset_right = -772.0
+offset_bottom = -357.0
 scale = Vector2(0.402373, 0.402373)
 texture_normal = ExtResource("6_s1imd")
 texture_pressed = ExtResource("7_yvelp")
@@ -113,10 +42,10 @@ ignore_texture_size = true
 stretch_mode = 4
 
 [node name="cashing_app" type="TextureButton" parent="screen/AppsButtons"]
-offset_left = -944.0
-offset_top = -316.0
-offset_right = -880.0
-offset_bottom = -252.0
+offset_left = -936.0
+offset_top = -428.0
+offset_right = -872.0
+offset_bottom = -364.0
 texture_normal = ExtResource("8_aqjcx")
 ignore_texture_size = true
 stretch_mode = 4
@@ -135,242 +64,6 @@ stretch_mode = 4
 [node name="Youtube" parent="screen/Apps" instance=ExtResource("14_148xh")]
 visible = false
 position = Vector2(0, 64)
-
-[node name="freelance_app" type="Node2D" parent="screen/Apps"]
-visible = false
-position = Vector2(0, 68)
-
-[node name="freelancing_home" type="ColorRect" parent="screen/Apps/freelance_app"]
-offset_left = -960.0
-offset_top = -544.0
-offset_right = 960.0
-offset_bottom = 472.0
-color = Color(0, 0.141176, 0.0352941, 1)
-
-[node name="Pngwing_com(5)" type="Sprite2D" parent="screen/Apps/freelance_app/freelancing_home"]
-modulate = Color(1, 1, 1, 0.207843)
-position = Vector2(960, 544)
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("14_82582")
-
-[node name="Label" type="Label" parent="screen/Apps/freelance_app/freelancing_home"]
-layout_mode = 0
-offset_left = 528.0
-offset_top = 24.0
-offset_right = 1393.0
-offset_bottom = 152.0
-text = "Welcome to Cashing app!!!
-The place where you can CODE to Survive"
-label_settings = SubResource("LabelSettings_4koo3")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="advance_button" type="Button" parent="screen/Apps/freelance_app/freelancing_home"]
-layout_mode = 0
-offset_left = 816.0
-offset_top = 496.0
-offset_right = 1104.0
-offset_bottom = 576.0
-theme_override_styles/normal = ExtResource("16_6ks8o")
-theme_override_styles/hover = SubResource("StyleBoxFlat_ir5qr")
-
-[node name="Label" type="Label" parent="screen/Apps/freelance_app/freelancing_home/advance_button"]
-layout_mode = 0
-offset_left = 48.0
-offset_top = 16.0
-offset_right = 240.0
-offset_bottom = 64.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0.215686, 0.215686, 0.215686, 0.611765)
-theme_override_fonts/font = ExtResource("16_yn3t0")
-text = "Advance"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="freelancing_tasks" type="ColorRect" parent="screen/Apps/freelance_app"]
-visible = false
-offset_left = -960.0
-offset_top = -544.0
-offset_right = 960.0
-offset_bottom = 472.0
-color = Color(0, 0.141176, 0.0352941, 1)
-
-[node name="Pngwing_com(5)" type="Sprite2D" parent="screen/Apps/freelance_app/freelancing_tasks"]
-modulate = Color(1, 1, 1, 0.207843)
-position = Vector2(960, 544)
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("14_82582")
-
-[node name="Label" type="Label" parent="screen/Apps/freelance_app/freelancing_tasks"]
-layout_mode = 0
-offset_left = 128.0
-offset_top = 128.0
-offset_right = 320.0
-offset_bottom = 193.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_hugfr")
-text = "Tasks:"
-label_settings = SubResource("LabelSettings_2c1kd")
-vertical_alignment = 2
-
-[node name="Node2D" type="Node2D" parent="screen/Apps/freelance_app/freelancing_tasks"]
-position = Vector2(128, 320)
-
-[node name="Button" type="Button" parent="screen/Apps/freelance_app/freelancing_tasks/Node2D"]
-offset_top = -64.0
-offset_right = 448.0
-offset_bottom = 64.0
-
-[node name="Label" type="Label" parent="screen/Apps/freelance_app/freelancing_tasks/Node2D/Button"]
-layout_mode = 0
-offset_right = 320.0
-offset_bottom = 128.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_67i75")
-text = "make a program that prints \"Hello World\"!!"
-label_settings = SubResource("LabelSettings_bvkp8")
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="Label2" type="Label" parent="screen/Apps/freelance_app/freelancing_tasks/Node2D/Button"]
-layout_mode = 0
-offset_left = 320.0
-offset_right = 448.0
-offset_bottom = 128.0
-text = "5💲"
-label_settings = SubResource("LabelSettings_fc6sm")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Task_submission" type="ColorRect" parent="screen/Apps/freelance_app"]
-visible = false
-offset_left = -960.0
-offset_top = -544.0
-offset_right = 960.0
-offset_bottom = 472.0
-color = Color(0, 0.141176, 0.0352941, 1)
-
-[node name="Pngwing_com(5)" type="Sprite2D" parent="screen/Apps/freelance_app/Task_submission"]
-modulate = Color(1, 1, 1, 0.207843)
-position = Vector2(960, 544)
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("14_82582")
-
-[node name="Title" type="Label" parent="screen/Apps/freelance_app/Task_submission"]
-layout_mode = 0
-offset_left = 536.0
-offset_top = 64.0
-offset_right = 1384.0
-offset_bottom = 144.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_2fweq")
-text = "Print \"House World\""
-label_settings = SubResource("LabelSettings_r4g3y")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="submit_button" type="Button" parent="screen/Apps/freelance_app/Task_submission"]
-layout_mode = 0
-offset_left = 888.0
-offset_top = 768.0
-offset_right = 1032.0
-offset_bottom = 816.0
-text = "Submit"
-
-[node name="FileDialog" type="FileDialog" parent="screen/Apps/freelance_app/Task_submission"]
-title = "Open a File"
-size = Vector2i(800, 600)
-ok_button_text = "Open"
-file_mode = 0
-access = 2
-filters = PackedStringArray("*.py")
-
-[node name="AcceptDialog" type="AcceptDialog" parent="screen/Apps/freelance_app/Task_submission"]
-title = ""
-size = Vector2i(221, 80)
-theme_override_styles/panel = SubResource("StyleBoxFlat_1m080")
-ok_button_text = "close"
-dialog_text = "Congrats, you earned 5💲"
-
-[node name="vs_code" type="TextureButton" parent="screen/Apps/freelance_app/Task_submission"]
-layout_mode = 0
-offset_left = 928.0
-offset_top = 832.0
-offset_right = 992.0
-offset_bottom = 896.0
-texture_normal = ExtResource("4_c7wb0")
-texture_pressed = ExtResource("4_xoa7m")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="screen/Apps/freelance_app/Task_submission/vs_code"]
-layout_mode = 0
-offset_left = -160.0
-offset_top = 80.0
-offset_right = 224.0
-offset_bottom = 134.0
-text = "you can use visual studio code for better coding experience, then save and click submit"
-label_settings = SubResource("LabelSettings_r2ad5")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="CodeEdit" type="CodeEdit" parent="screen/Apps/freelance_app/Task_submission"]
-modulate = Color(1, 1, 1, 0.956863)
-layout_mode = 0
-offset_left = 576.0
-offset_top = 192.0
-offset_right = 1344.0
-offset_bottom = 576.0
-theme_override_colors/background_color = Color(0.298039, 0, 0.615686, 0.282353)
-theme_override_fonts/font = ExtResource("15_xqtup")
-theme_override_font_sizes/font_size = 20
-placeholder_text = "code here..."
-caret_blink = true
-syntax_highlighter = ExtResource("16_ia211")
-highlight_current_line = true
-draw_tabs = true
-gutters_draw_executing_lines = true
-gutters_draw_line_numbers = true
-code_completion_enabled = true
-indent_automatic = true
-auto_brace_completion_enabled = true
-auto_brace_completion_highlight_matching = true
-
-[node name="error_highlighter" type="ColorRect" parent="screen/Apps/freelance_app/Task_submission/CodeEdit"]
-visible = false
-layout_mode = 0
-offset_top = 4.0
-offset_right = 768.0
-offset_bottom = 32.0
-mouse_filter = 2
-color = Color(1, 0.12549, 0.0862745, 0.117647)
-
-[node name="run" type="Button" parent="screen/Apps/freelance_app/Task_submission/CodeEdit"]
-layout_mode = 0
-offset_left = 704.0
-offset_right = 768.0
-offset_bottom = 64.0
-theme_override_fonts/font = ExtResource("16_yn3t0")
-theme_override_font_sizes/font_size = 32
-text = "▶"
-
-[node name="ErrorDialog" type="AcceptDialog" parent="screen/Apps/freelance_app/Task_submission"]
-title = ""
-size = Vector2i(221, 80)
-unresizable = true
-always_on_top = true
-popup_window = true
-theme_override_styles/panel = SubResource("StyleBoxFlat_1m080")
-ok_button_text = "close"
-
-[node name="command_line" type="TextEdit" parent="screen/Apps/freelance_app/Task_submission"]
-layout_mode = 0
-offset_left = 576.0
-offset_top = 576.0
-offset_right = 1344.0
-offset_bottom = 736.0
-editable = false
-
-[node name="levels" type="Node" parent="screen/Apps/freelance_app/Task_submission"]
-script = ExtResource("17_h4m7q")
 
 [node name="ColorRect" type="ColorRect" parent="screen/Apps"]
 offset_left = -960.0
@@ -395,17 +88,10 @@ label_settings = SubResource("LabelSettings_lyv5q")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="screen/AppsButtons/vs_code" to="." method="_on_vs_code_pressed"]
+[node name="freelance_app" parent="screen/Apps" instance=ExtResource("18_f35jw")]
+position = Vector2(0, 68)
+
 [connection signal="pressed" from="screen/AppsButtons/utube" to="." method="_on_utube_pressed"]
 [connection signal="pressed" from="screen/AppsButtons/cashing_app" to="." method="_on_cashing_app_pressed"]
 [connection signal="pressed" from="screen/AppsButtons/power_off" to="." method="_on_power_off_pressed"]
-[connection signal="pressed" from="screen/Apps/freelance_app/freelancing_home/advance_button" to="." method="_on_advance_button_pressed"]
-[connection signal="pressed" from="screen/Apps/freelance_app/freelancing_tasks/Node2D/Button" to="." method="_on_task_button_pressed"]
-[connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/submit_button" to="." method="_on_submit_button_pressed"]
-[connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/submit_button" to="." method="_on_run_pressed"]
-[connection signal="file_selected" from="screen/Apps/freelance_app/Task_submission/FileDialog" to="." method="_on_file_selected"]
-[connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/vs_code" to="." method="_on_vs_code_pressed"]
-[connection signal="mouse_entered" from="screen/Apps/freelance_app/Task_submission/CodeEdit" to="." method="_on_code_edit_mouse_entered"]
-[connection signal="text_changed" from="screen/Apps/freelance_app/Task_submission/CodeEdit" to="." method="_on_code_edit_text_changed"]
-[connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/CodeEdit/run" to="." method="_on_run_pressed"]
 [connection signal="pressed" from="screen/Apps/ColorRect/close_button" to="." method="_on_close_button_pressed"]
