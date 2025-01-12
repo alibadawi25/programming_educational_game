@@ -1,0 +1,318 @@
+[gd_scene load_steps=22 format=3 uid="uid://nrwuwt26y6wb"]
+
+[ext_resource type="Texture2D" uid="uid://cyvrscxuyxc3" path="res://pngwing.com (5).png" id="1_37soj"]
+[ext_resource type="Script" path="res://freelance_app.gd" id="1_jomei"]
+[ext_resource type="FontFile" uid="uid://bnwk4n3m2cvod" path="res://Stormfaze.otf" id="2_hsw4n"]
+[ext_resource type="StyleBox" uid="uid://chdfwgiuaqgc5" path="res://Advance_button.tres" id="3_4s533"]
+[ext_resource type="FontFile" uid="uid://dq8kvjifh2xmf" path="res://joystix monospace.otf" id="4_du80t"]
+[ext_resource type="Texture2D" uid="uid://cm405pqnssr4t" path="res://vsCode.png" id="5_3x0uh"]
+[ext_resource type="Texture2D" uid="uid://w1gub1g0iq6m" path="res://vsCodeLogo.png" id="6_6fuyj"]
+[ext_resource type="FontFile" uid="uid://i511ycfmw8yn" path="res://toxigenesis bd.otf" id="7_vihgh"]
+[ext_resource type="Script" path="res://levels.gd" id="8_svkrs"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ng2hy"]
+font = ExtResource("2_hsw4n")
+font_size = 38
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tcx2a"]
+bg_color = Color(0.419608, 0.419608, 0.419608, 0.294118)
+corner_radius_top_left = 300
+corner_radius_top_right = 300
+corner_radius_bottom_right = 300
+corner_radius_bottom_left = 300
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3furp"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_udun5"]
+font = ExtResource("2_hsw4n")
+font_size = 40
+shadow_size = 6
+shadow_color = Color(0, 0, 0, 0.588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb71k"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_l2l3x"]
+font = ExtResource("2_hsw4n")
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_1gld5"]
+font = ExtResource("2_hsw4n")
+font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f73aa"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_du8su"]
+font = ExtResource("2_hsw4n")
+font_size = 46
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o1r5j"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 10.0
+bg_color = Color(0.6, 0.6, 0.6, 0.411765)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x711a"]
+font = ExtResource("4_du80t")
+font_size = 13
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_ial6d"]
+number_color = Color(0.627451, 0.768627, 1, 1)
+symbol_color = Color(0.415686, 1, 0.686275, 1)
+function_color = Color(0.54902, 0.694118, 1, 1)
+
+[node name="freelance_app" type="Node2D"]
+position = Vector2(960, 544)
+script = ExtResource("1_jomei")
+metadata/_edit_group_ = true
+
+[node name="freelancing_home" type="ColorRect" parent="."]
+offset_left = -960.0
+offset_top = -544.0
+offset_right = 960.0
+offset_bottom = 472.0
+color = Color(0, 0.141176, 0.0352941, 1)
+
+[node name="Pngwing_com(5)" type="Sprite2D" parent="freelancing_home"]
+modulate = Color(1, 1, 1, 0.207843)
+position = Vector2(960, 544)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_37soj")
+
+[node name="Label" type="Label" parent="freelancing_home"]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 24.0
+offset_right = 1393.0
+offset_bottom = 152.0
+text = "Welcome to Cashing app!!!
+The place where you can CODE to Survive"
+label_settings = SubResource("LabelSettings_ng2hy")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="advance_button" type="Button" parent="freelancing_home"]
+layout_mode = 0
+offset_left = 816.0
+offset_top = 496.0
+offset_right = 1104.0
+offset_bottom = 576.0
+theme_override_styles/normal = ExtResource("3_4s533")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tcx2a")
+
+[node name="Label" type="Label" parent="freelancing_home/advance_button"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 16.0
+offset_right = 240.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.215686, 0.215686, 0.215686, 0.611765)
+theme_override_fonts/font = ExtResource("4_du80t")
+text = "Advance"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="freelancing_tasks" type="ColorRect" parent="."]
+visible = false
+offset_left = -960.0
+offset_top = -544.0
+offset_right = 960.0
+offset_bottom = 472.0
+color = Color(0, 0.141176, 0.0352941, 1)
+
+[node name="Pngwing_com(5)" type="Sprite2D" parent="freelancing_tasks"]
+modulate = Color(1, 1, 1, 0.207843)
+position = Vector2(960, 544)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_37soj")
+
+[node name="Label" type="Label" parent="freelancing_tasks"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 128.0
+offset_right = 320.0
+offset_bottom = 193.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_3furp")
+text = "Tasks:"
+label_settings = SubResource("LabelSettings_udun5")
+vertical_alignment = 2
+
+[node name="Node2D" type="Node2D" parent="freelancing_tasks"]
+position = Vector2(128, 320)
+
+[node name="Button" type="Button" parent="freelancing_tasks/Node2D"]
+offset_top = -64.0
+offset_right = 448.0
+offset_bottom = 64.0
+
+[node name="Label" type="Label" parent="freelancing_tasks/Node2D/Button"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 128.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vb71k")
+text = "make a program that prints \"Hello World\"!!"
+label_settings = SubResource("LabelSettings_l2l3x")
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label2" type="Label" parent="freelancing_tasks/Node2D/Button"]
+layout_mode = 0
+offset_left = 320.0
+offset_right = 448.0
+offset_bottom = 128.0
+text = "5💲"
+label_settings = SubResource("LabelSettings_1gld5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Task_submission" type="ColorRect" parent="."]
+offset_left = -960.0
+offset_top = -544.0
+offset_right = 960.0
+offset_bottom = 472.0
+color = Color(0, 0.141176, 0.0352941, 1)
+
+[node name="Pngwing_com(5)" type="Sprite2D" parent="Task_submission"]
+modulate = Color(1, 1, 1, 0.207843)
+position = Vector2(960, 544)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_37soj")
+
+[node name="Title" type="Label" parent="Task_submission"]
+layout_mode = 0
+offset_left = 536.0
+offset_top = 64.0
+offset_right = 1384.0
+offset_bottom = 144.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_f73aa")
+text = "Print \"House World\""
+label_settings = SubResource("LabelSettings_du8su")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="submit_button" type="Button" parent="Task_submission"]
+layout_mode = 0
+offset_left = 888.0
+offset_top = 768.0
+offset_right = 1032.0
+offset_bottom = 816.0
+text = "Submit"
+
+[node name="FileDialog" type="FileDialog" parent="Task_submission"]
+title = "Open a File"
+size = Vector2i(800, 600)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.py")
+
+[node name="AcceptDialog" type="AcceptDialog" parent="Task_submission"]
+title = ""
+size = Vector2i(221, 80)
+theme_override_styles/panel = SubResource("StyleBoxFlat_o1r5j")
+ok_button_text = "close"
+dialog_text = "Congrats, you earned 5💲"
+
+[node name="vs_code" type="TextureButton" parent="Task_submission"]
+layout_mode = 0
+offset_left = 928.0
+offset_top = 832.0
+offset_right = 992.0
+offset_bottom = 896.0
+texture_normal = ExtResource("5_3x0uh")
+texture_pressed = ExtResource("6_6fuyj")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Task_submission/vs_code"]
+layout_mode = 0
+offset_left = -160.0
+offset_top = 80.0
+offset_right = 224.0
+offset_bottom = 134.0
+text = "you can use visual studio code for better coding experience, then save and click submit"
+label_settings = SubResource("LabelSettings_x711a")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CodeEdit" type="CodeEdit" parent="Task_submission"]
+modulate = Color(1, 1, 1, 0.956863)
+layout_mode = 0
+offset_left = 576.0
+offset_top = 192.0
+offset_right = 1344.0
+offset_bottom = 576.0
+theme_override_colors/background_color = Color(0.298039, 0, 0.615686, 0.282353)
+theme_override_fonts/font = ExtResource("7_vihgh")
+theme_override_font_sizes/font_size = 20
+text = "d
+d
+"
+placeholder_text = "code here..."
+caret_blink = true
+syntax_highlighter = SubResource("CodeHighlighter_ial6d")
+highlight_current_line = true
+draw_tabs = true
+gutters_draw_executing_lines = true
+gutters_draw_line_numbers = true
+code_completion_enabled = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+
+[node name="error_highlighter" type="ColorRect" parent="Task_submission/CodeEdit"]
+visible = false
+layout_mode = 0
+offset_top = 4.0
+offset_right = 768.0
+offset_bottom = 32.0
+mouse_filter = 2
+color = Color(1, 0.12549, 0.0862745, 0.117647)
+
+[node name="run" type="Button" parent="Task_submission/CodeEdit"]
+layout_mode = 0
+offset_left = 704.0
+offset_right = 768.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("4_du80t")
+theme_override_font_sizes/font_size = 32
+text = "▶"
+
+[node name="ErrorDialog" type="AcceptDialog" parent="Task_submission"]
+title = ""
+size = Vector2i(221, 80)
+unresizable = true
+always_on_top = true
+popup_window = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_o1r5j")
+ok_button_text = "close"
+
+[node name="command_line" type="TextEdit" parent="Task_submission"]
+layout_mode = 0
+offset_left = 576.0
+offset_top = 576.0
+offset_right = 1344.0
+offset_bottom = 736.0
+editable = false
+
+[node name="levels" type="Node" parent="Task_submission"]
+script = ExtResource("8_svkrs")
+
+[connection signal="pressed" from="freelancing_home/advance_button" to="." method="_on_advance_button_pressed"]
+[connection signal="pressed" from="freelancing_tasks/Node2D/Button" to="." method="_on_task_button_pressed"]
+[connection signal="pressed" from="Task_submission/submit_button" to="." method="_on_submit_button_pressed"]
+[connection signal="file_selected" from="Task_submission/FileDialog" to="." method="_on_file_selected"]
+[connection signal="pressed" from="Task_submission/vs_code" to="." method="_on_vs_code_pressed"]
+[connection signal="mouse_entered" from="Task_submission/CodeEdit" to="." method="_on_code_edit_mouse_entered"]
+[connection signal="text_changed" from="Task_submission/CodeEdit" to="." method="_on_code_edit_text_changed"]
+[connection signal="pressed" from="Task_submission/CodeEdit/run" to="." method="_on_run_pressed"]

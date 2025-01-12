@@ -13,7 +13,9 @@ extends Node2D
 @onready var apps = $screen/Apps
 @onready var code_edit = $screen/Apps/freelance_app/Task_submission/CodeEdit
 @onready var error_dialog = $screen/Apps/freelance_app/Task_submission/ErrorDialog
+@onready var error_highlighter = $screen/Apps/freelance_app/Task_submission/CodeEdit/error_highlighter
 @onready var command_line = $screen/Apps/freelance_app/Task_submission/command_line
+@onready var levels = $screen/Apps/freelance_app/Task_submission/levels
 
 # Boolean-related keywords in Python
 const BOOL_KEYWORDS = [
@@ -165,20 +167,8 @@ func _on_submit_button_pressed():
 	write_in_py_file()
 	OS.execute("CMD.exe", ["/C", command], output, true)
 	print(array_to_string(output))
-	#if "Error" in array_to_string(output):
-#
-		#error_dialog.dialog_text = array_to_string(output)
-		#error_dialog.visible = true
-		#error_dialog.popup_centered()
-		#is_vs_code_on = false
-	if array_to_string(output).to_lower() == "hello world\r\n":
-		task_submission.visible = false
-		accept_dialog.visible
-		accept_dialog.popup_centered() 
-		accept_dialog.position[1]=accept_dialog.position[1]-60
-	#file_dialog.visible = true
-	#file_dialog.current_file = "code.py"
-	#file_dialog.popup_centered() 
+	
+
 
 func _on_file_selected(path):
 	var output = []
@@ -240,3 +230,40 @@ func _on_run_pressed():
 	write_in_py_file()
 	OS.execute("CMD.exe", ["/C", command], output, true)
 	command_line.text =array_to_string(output)
+
+
+func _on_code_edit_mouse_entered():
+	is_vs_code_on = false
+
+
+func _on_code_edit_text_changed():
+	if error_highlighter.visible:
+		error_highlighter.visible = false
+	var code = code_edit.text
+	var temp_file_path = "user://temp_file.py"
+	
+	# Get the absolute file path using GlobalizePath
+	var physical_path = ProjectSettings.globalize_path(temp_file_path)
+	
+	# Open the file for writing and store the code
+	var temp_file = FileAccess.open(temp_file_path, FileAccess.WRITE)
+	temp_file.store_string(code)
+	temp_file.close()
+	
+	# Execute the Python script
+	var output = []
+	var result = OS.execute("python", [physical_path], output, true)
+	print(array_to_string(output))
+	if "^" in array_to_string(output):
+		var error_line = int(array_to_string(output).split("\n")[(array_to_string(output).split("\n").size())-5].split(" ")[5][0])
+		if code.split("\n").size() > error_line:
+			error_highlighter.visible = true
+			error_highlighter.position.y = 4
+			error_highlighter.position.y = error_highlighter.position.y + (32*(error_line-1))
+	elif "Error" in array_to_string(output):
+		# Print the output (or errors)
+		var error_line = int(array_to_string(output).split("\n")[(array_to_string(output).split("\n").size())-4].split(" ")[5][0])
+		if code.split("\n").size() > error_line:
+			error_highlighter.visible = true
+			error_highlighter.position.y = 4
+			error_highlighter.position.y = error_highlighter.position.y + (32*(error_line-1))

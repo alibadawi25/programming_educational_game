@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c12tcsrham0oa"]
+[gd_scene load_steps=30 format=3 uid="uid://c12tcsrham0oa"]
 
 [ext_resource type="Script" path="res://computer_screen.gd" id="1_nua6c"]
 [ext_resource type="Texture2D" uid="uid://dsu721o3alker" path="res://laptop_black_screen.png" id="1_xjxrj"]
@@ -16,6 +16,7 @@
 [ext_resource type="StyleBox" uid="uid://chdfwgiuaqgc5" path="res://Advance_button.tres" id="16_6ks8o"]
 [ext_resource type="CodeHighlighter" uid="uid://qqousrymjrcc" path="res://code.tres" id="16_ia211"]
 [ext_resource type="FontFile" uid="uid://dq8kvjifh2xmf" path="res://joystix monospace.otf" id="16_yn3t0"]
+[ext_resource type="Script" path="res://levels.gd" id="17_h4m7q"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4koo3"]
 font = ExtResource("15_swss2")
@@ -130,7 +131,6 @@ ignore_texture_size = true
 stretch_mode = 4
 
 [node name="Apps" type="Node2D" parent="screen"]
-visible = false
 
 [node name="Youtube" parent="screen/Apps" instance=ExtResource("14_148xh")]
 visible = false
@@ -325,12 +325,23 @@ theme_override_font_sizes/font_size = 20
 placeholder_text = "code here..."
 caret_blink = true
 syntax_highlighter = ExtResource("16_ia211")
+highlight_current_line = true
 draw_tabs = true
+gutters_draw_executing_lines = true
 gutters_draw_line_numbers = true
 code_completion_enabled = true
 indent_automatic = true
 auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
+
+[node name="error_highlighter" type="ColorRect" parent="screen/Apps/freelance_app/Task_submission/CodeEdit"]
+visible = false
+layout_mode = 0
+offset_top = 4.0
+offset_right = 768.0
+offset_bottom = 32.0
+mouse_filter = 2
+color = Color(1, 0.12549, 0.0862745, 0.117647)
 
 [node name="run" type="Button" parent="screen/Apps/freelance_app/Task_submission/CodeEdit"]
 layout_mode = 0
@@ -357,6 +368,9 @@ offset_top = 576.0
 offset_right = 1344.0
 offset_bottom = 736.0
 editable = false
+
+[node name="levels" type="Node" parent="screen/Apps/freelance_app/Task_submission"]
+script = ExtResource("17_h4m7q")
 
 [node name="ColorRect" type="ColorRect" parent="screen/Apps"]
 offset_left = -960.0
@@ -391,5 +405,7 @@ vertical_alignment = 1
 [connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/submit_button" to="." method="_on_run_pressed"]
 [connection signal="file_selected" from="screen/Apps/freelance_app/Task_submission/FileDialog" to="." method="_on_file_selected"]
 [connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/vs_code" to="." method="_on_vs_code_pressed"]
+[connection signal="mouse_entered" from="screen/Apps/freelance_app/Task_submission/CodeEdit" to="." method="_on_code_edit_mouse_entered"]
+[connection signal="text_changed" from="screen/Apps/freelance_app/Task_submission/CodeEdit" to="." method="_on_code_edit_text_changed"]
 [connection signal="pressed" from="screen/Apps/freelance_app/Task_submission/CodeEdit/run" to="." method="_on_run_pressed"]
 [connection signal="pressed" from="screen/Apps/ColorRect/close_button" to="." method="_on_close_button_pressed"]
