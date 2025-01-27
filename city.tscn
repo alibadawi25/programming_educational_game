@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://67dhtjb427x5"]
+[gd_scene load_steps=27 format=3 uid="uid://67dhtjb427x5"]
 
 [ext_resource type="Texture2D" uid="uid://cj104s6y836qg" path="res://CP_V1.1.0_nyknck/CP_V1.1.0_nyknck/CP_V1.0.4_nyknck/CP_V1.0.4.png" id="1_2xbfq"]
 [ext_resource type="Script" path="res://city.gd" id="1_cjduw"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://css4v175r2d8q" path="res://world_tiles/Ground/Shore.png" id="4_w083o"]
 [ext_resource type="Texture2D" uid="uid://cy02mf1vkfd05" path="res://world_tiles/Ground/Grass.png" id="5_tiyuu"]
 [ext_resource type="Texture2D" uid="uid://4usm4s3tek0e" path="res://world_tiles/Ground/TexturedGrass.png" id="6_fsuwg"]
+[ext_resource type="PackedScene" uid="uid://dahh8bmc5os02" path="res://player.tscn" id="7_7set6"]
+[ext_resource type="Script" path="res://player.gd" id="8_2jbw6"]
+[ext_resource type="FontFile" uid="uid://of2g6xqam0ls" path="res://yoster.ttf" id="11_3ajp5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2sp2"]
 texture = ExtResource("1_2xbfq")
@@ -694,6 +697,15 @@ sources/2 = SubResource("TileSetAtlasSource_0soem")
 sources/3 = SubResource("TileSetAtlasSource_fbh2f")
 sources/4 = SubResource("TileSetAtlasSource_bid06")
 
+[sub_resource type="LabelSettings" id="LabelSettings_lkj0n"]
+font = ExtResource("11_3ajp5")
+font_size = 48
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jc4f5"]
+size = Vector2(32, 76)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8oeli"]
 size = Vector2(160, 32)
 
@@ -729,12 +741,35 @@ layer_0/tile_data = PackedInt32Array(1245184, 851968, 44, 1245185, 983040, 44, 1
 layer_1/tile_data = PackedInt32Array(1048577, 458752, 17, 1114113, 458752, 18, 1179649, 458752, 19, 1048578, 524288, 17, 1114114, 524288, 18, 1179650, 524288, 19, 1048579, 589824, 17, 1114115, 589824, 18, 1179651, 589824, 19, 1048580, 851968, 17, 1114116, 851968, 18, 1179652, 851968, 19, 1048581, 917504, 17, 1114117, 917504, 18, 1179653, 917504, 19, 1048582, 65536, 17, 1114118, 65536, 18, 1179654, 65536, 19, 1048583, 131072, 17, 1114119, 131072, 18, 1179655, 131072, 19, 1048584, 196608, 17, 1114120, 196608, 18, 1179656, 196608, 19, 1048585, 262144, 17, 1114121, 262144, 18, 1179657, 262144, 19, 1179658, 1638400, 10, 1114122, 1638400, 10, 1048587, 458752, 11, 1179659, 458752, 13, 1179660, 524288, 13, 1114125, 589824, 12, 1179661, 589824, 13, 1048589, 589824, 11, 1048588, 524288, 11, 1114124, 524288, 12, 1114123, 458752, 12, 1048590, 1179648, 11, 1114126, 1179648, 12, 1179662, 1179648, 13, 1048591, 1245184, 11, 1114127, 1245184, 12, 1179663, 1245184, 13, 786433, 983040, 30, 851969, 983040, 31, 917505, 983040, 32, 786434, 1048576, 30, 851970, 1048576, 31, 917506, 1048576, 32, 524289, 65536, 24, 589825, 65536, 25, 524290, 131072, 24, 589826, 131072, 25, 524291, 196608, 24, 589827, 196608, 25, 524292, 262144, 24, 589828, 262144, 25, 524293, 327680, 24, 589829, 327680, 25, 327681, 524288, 24, 393217, 524288, 25, 327682, 589824, 24, 393218, 589824, 25, 327683, 655360, 24, 393219, 655360, 25, 327684, 720896, 24, 393220, 720896, 25, 1048592, 1310720, 11, 1114128, 1310720, 12, 1179664, 1310720, 13, 1179671, 1769472, 8, 1179672, 1769472, 8, 1179673, 1769472, 8, 1114133, 1638400, 12, 1114134, 1638400, 12, 524309, 1769472, 12, 524310, 1769472, 12, 786453, 1900544, 10, -720897, 1376256, 48, -262145, 1376256, 49)
 layer_2/tile_data = PackedInt32Array(458756, 720896, 24, 327684, 720896, 24, 393220, 720896, 25, 524293, 327680, 24, 589829, 327680, 25, 589824, 1703936, 26, 655360, 1703936, 27, 589825, 1769472, 26, 327680, 1703936, 26, 393216, 1703936, 27, 327681, 1769472, 26, 458769, 1703936, 268435482, 458768, 1769472, 268435482, 524305, 1703936, 268435483, 131089, 2031616, 23, 196625, 2031616, 24, 262161, 1703936, 32, 327697, 1703936, 33, 1572881, 2031616, 23, 1638417, 2031616, 24)
 
+[node name="Player" parent="." instance=ExtResource("7_7set6")]
+position = Vector2(80, 600)
+scale = Vector2(0.3, 0.3)
+script = ExtResource("8_2jbw6")
+
+[node name="Label" type="Label" parent="Player"]
+visible = false
+offset_left = -426.667
+offset_top = -453.333
+offset_right = 426.333
+offset_bottom = -388.333
+text = "press \"r\" to ride the car"
+label_settings = SubResource("LabelSettings_lkj0n")
+horizontal_alignment = 1
+
 [node name="car" parent="." instance=ExtResource("2_che4y")]
-position = Vector2(224, 72)
+position = Vector2(232, 72)
 scale = Vector2(2, 2)
 
 [node name="Camera2D" type="Camera2D" parent="car"]
 zoom = Vector2(2, 2)
+
+[node name="Area2D" type="Area2D" parent="car"]
+position = Vector2(-112, -36)
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="car/Area2D"]
+position = Vector2(240, 72)
+shape = SubResource("RectangleShape2D_jc4f5")
 
 [node name="car_crash" type="Area2D" parent="."]
 visible = false
@@ -799,5 +834,7 @@ shape = SubResource("RectangleShape2D_0m0t1")
 position = Vector2(704, 1072)
 shape = SubResource("RectangleShape2D_0m0t1")
 
+[connection signal="body_entered" from="car/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="car/Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="body_entered" from="car_crash" to="." method="_on_car_crash_body_entered"]
 [connection signal="body_exited" from="car_crash" to="." method="_on_car_crash_body_exited"]

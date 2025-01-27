@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://ct0xt5jbyy7kn"]
+[gd_scene load_steps=10 format=3 uid="uid://ct0xt5jbyy7kn"]
 
 [ext_resource type="Script" path="res://room.gd" id="1_5gpi1"]
 [ext_resource type="Texture2D" uid="uid://ly7pw516rkey" path="res://InteriorTilesLITE.png" id="1_ttb01"]
 [ext_resource type="PackedScene" uid="uid://dahh8bmc5os02" path="res://player.tscn" id="2_x6kbr"]
 [ext_resource type="Script" path="res://player.gd" id="3_3qe08"]
 [ext_resource type="FontFile" uid="uid://of2g6xqam0ls" path="res://yoster.ttf" id="4_56ham"]
-[ext_resource type="FontFile" uid="uid://bnwk4n3m2cvod" path="res://Stormfaze.otf" id="5_usoun"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_47uba"]
 texture = ExtResource("1_ttb01")
@@ -1918,11 +1917,6 @@ texture = ExtResource("1_ttb01")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_47uba")
 
-[sub_resource type="LabelSettings" id="LabelSettings_glrqg"]
-font = ExtResource("5_usoun")
-font_size = 64
-font_color = Color(0, 0, 0, 1)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rjgyf"]
 size = Vector2(232, 237)
 
@@ -1956,23 +1950,6 @@ layer_3/tile_data = PackedInt32Array(-65526, 262144, 17, -65525, 327680, 17, -13
 z_index = 2
 position = Vector2(952, 608)
 script = ExtResource("3_3qe08")
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(1.4, 1.4)
-limit_left = -20
-limit_top = -24
-limit_right = 1620
-limit_bottom = 1222
-limit_smoothed = true
-
-[node name="Label" type="Label" parent="Player/Camera2D"]
-visible = false
-offset_left = 220.0
-offset_top = -240.0
-offset_right = 437.0
-offset_bottom = -162.0
-text = "500💲"
-label_settings = SubResource("LabelSettings_glrqg")
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(888, 216)

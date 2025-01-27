@@ -8,16 +8,23 @@ const FRICTION = 10.0
 const DECELERATION = 100.0  # Deceleration factor when no input is given
 const TURN_SMOOTHNESS = 5.0  # Smoothness factor for turning
 
+@onready var city = $"../"
+
 # Car's current velocity and steering angle
 var speed = 0.0
 var steering_angle = 0.0
 var target_steering_angle = 0.0  # Target steering angle to smooth out the steering
 
 func _physics_process(delta):
+	var forward_input = 0
+	var steering_input = 0
 	# Get the input for acceleration and steering
-	var forward_input = Input.get_action_strength("ui_up") - Input.get_action_strength("ui_down")
-	var steering_input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-
+	if city.is_in_car:
+		forward_input = Input.get_action_strength("ui_up") - Input.get_action_strength("ui_down")
+		steering_input = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	else:
+		forward_input = 0
+		steering_input = 0
 	# Apply acceleration or deceleration based on input
 	if forward_input != 0:
 		# Accelerate when forward input is provided

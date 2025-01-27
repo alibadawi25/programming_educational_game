@@ -8,6 +8,11 @@ extends Node2D
 var canTurnLapOn = false
 
 func _ready():
+	camera_2d.zoom = Vector2(1.4, 1.4)
+	camera_2d.limit_left = -20
+	camera_2d.limit_right = 1620
+	camera_2d.limit_bottom = 1222
+	camera_2d.limit_top = -24
 	update_label_position()
 	label.visible = false  # Ensure the label is initially hidden
 	var file = FileAccess.open("user://data.txt", FileAccess.READ)
@@ -67,4 +72,4 @@ func _on_area_2d_body_exited(body):
 
 func _on_area_2d_2_body_entered(body):
 	if body.name == "Player":
-		print("going out of the room")
+		get_tree().change_scene_to_file("res://city.tscn")

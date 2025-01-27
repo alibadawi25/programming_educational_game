@@ -4,7 +4,12 @@ extends Node2D
 @onready var explosion = $car/Explosion/CPUParticles2D
 @onready var explosion_sound = $car/Explosion_Fx
 @onready var camera_2d = $car/Camera2D
+@onready var label = $Player/Label
 
+@onready var player = $Player
+@onready var player_camera_2d = $Player/Camera2D
+var can_enter_car = false
+var is_in_car = false
 var car_crashed = false
 var shake_magnitude = 0.0  # Magnitude of the shake
 var shake_time = 0.0  # Remaining time for the shake
@@ -19,14 +24,31 @@ func _process(delta):
 		get_tree().quit()
 	if car_crashed:
 		car.speed = 0  # Stop the car when it crashes
-
-	# Handle camera shake
-	if shake_time > 0:
-		shake_time -= delta
-		shake_camera()
-	else:
-		camera_2d.zoom = Vector2(2, 2)
-		camera_2d.offset = Vector2.ZERO  # Reset the camera position when shaking ends
+	
+	if not player.visible and label.visible:
+		label.visible = false
+	
+	
+	if can_enter_car and Input.is_action_just_pressed("R") and not is_in_car:
+		player.visible = false
+		camera_2d.make_current()
+		is_in_car = true
+		
+	elif Input.is_action_just_pressed("R") and is_in_car:
+		print("hello")
+		player.visible = true
+		player_camera_2d.make_current()
+		player.position = car.position + Vector2(0, 35)
+		is_in_car = false
+		
+	if is_in_car:
+		# Handle camera shake
+		if shake_time > 0:
+			shake_time -= delta
+			shake_camera()
+		else:
+			camera_2d.zoom = Vector2(2, 2)
+			camera_2d.offset = Vector2.ZERO  # Reset the camera position when shaking ends
 
 # Add a function to perform the camera shake effect
 func shake_camera():
@@ -61,3 +83,15 @@ func _on_car_crash_body_exited(body):
 	if body.name == "car":
 		car_crashed = false
 		explosion.emitting = false  # Stop emitting particles when crash is over
+
+
+func _on_area_2d_body_entered(body):
+	if body.name == "Player":
+		label.visible = true
+		can_enter_car = true
+
+
+func _on_area_2d_body_exited(body):
+	if body.name == "Player":
+		label.visible = false
+		can_enter_car = false
