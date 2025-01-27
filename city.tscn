@@ -737,6 +737,7 @@ scale = Vector2(2, 2)
 zoom = Vector2(2, 2)
 
 [node name="car_crash" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="car_crash"]
 position = Vector2(496, 112)
