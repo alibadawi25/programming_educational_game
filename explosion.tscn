@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://lcmmno4pn2h3"]
+
+[node name="Explosion" type="Node2D"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 512
+lifetime = 2.0
+one_shot = true
+speed_scale = 3.24
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 32.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 1.65
+color = Color(0.541176, 0.254902, 0.101961, 1)

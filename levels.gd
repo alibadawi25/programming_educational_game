@@ -13,7 +13,7 @@ var levels = [
 	{
 		"id": 2,
 		"title": "Recieve an input and print it!",
-		"description": "Write a code that accepts an input string and print it",
+		"description": "Write a code that accepts an input string and print it\n\nExample:\n-------------------\n\nInput:Hello World\nOutput:Hello World",
 		"test_cases": [
 			"Hello World",
 			"Love you"
@@ -28,7 +28,7 @@ var levels = [
 	{
 		"id": 3,
 		"title": "Add 2 numbers",
-		"description": "Write a code that recieves 2 number inputs, add them and print them",
+		"description": "Write a code that recieves 2 number inputs, add them and print them\n\nExample:\n-------------------\n\nInput: 4 6\nOutput: 10",
 		"test_cases": [
 			[3,5],
 			[13,-4]

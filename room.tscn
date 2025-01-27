@@ -1954,9 +1954,8 @@ layer_3/tile_data = PackedInt32Array(-65526, 262144, 17, -65525, 327680, 17, -13
 
 [node name="Player" parent="." instance=ExtResource("2_x6kbr")]
 z_index = 2
-position = Vector2(896, 632)
+position = Vector2(952, 608)
 script = ExtResource("3_3qe08")
-metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(1.4, 1.4)
@@ -1968,10 +1967,10 @@ limit_smoothed = true
 
 [node name="Label" type="Label" parent="Player/Camera2D"]
 visible = false
-offset_left = 175.0
-offset_top = -210.0
-offset_right = 392.0
-offset_bottom = -132.0
+offset_left = 220.0
+offset_top = -240.0
+offset_right = 437.0
+offset_bottom = -162.0
 text = "500💲"
 label_settings = SubResource("LabelSettings_glrqg")
 

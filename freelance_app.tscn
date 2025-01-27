@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://nrwuwt26y6wb"]
+[gd_scene load_steps=23 format=3 uid="uid://nrwuwt26y6wb"]
 
 [ext_resource type="Texture2D" uid="uid://cyvrscxuyxc3" path="res://pngwing.com (5).png" id="1_37soj"]
 [ext_resource type="Script" path="res://freelance_app.gd" id="1_jomei"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://w1gub1g0iq6m" path="res://vsCodeLogo.png" id="6_6fuyj"]
 [ext_resource type="FontFile" uid="uid://i511ycfmw8yn" path="res://toxigenesis bd.otf" id="7_vihgh"]
 [ext_resource type="Script" path="res://levels.gd" id="8_svkrs"]
+[ext_resource type="CodeHighlighter" uid="uid://qqousrymjrcc" path="res://code.tres" id="9_gobhq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ng2hy"]
 font = ExtResource("2_hsw4n")
@@ -64,10 +65,9 @@ bg_color = Color(0.6, 0.6, 0.6, 0.411765)
 font = ExtResource("4_du80t")
 font_size = 13
 
-[sub_resource type="CodeHighlighter" id="CodeHighlighter_ial6d"]
-number_color = Color(0.627451, 0.768627, 1, 1)
-symbol_color = Color(0.415686, 1, 0.686275, 1)
-function_color = Color(0.54902, 0.694118, 1, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_a4bwp"]
+font = ExtResource("2_hsw4n")
+font_size = 24
 
 [node name="freelance_app" type="Node2D"]
 position = Vector2(960, 544)
@@ -121,6 +121,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="freelancing_tasks" type="ColorRect" parent="."]
+visible = false
 offset_left = -960.0
 offset_top = -544.0
 offset_right = 960.0
@@ -271,7 +272,6 @@ offset_top = 64.0
 offset_right = 1384.0
 offset_bottom = 144.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_f73aa")
-text = "Print \"House World\""
 label_settings = SubResource("LabelSettings_du8su")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -334,7 +334,7 @@ theme_override_fonts/font = ExtResource("7_vihgh")
 theme_override_font_sizes/font_size = 20
 placeholder_text = "code here..."
 caret_blink = true
-syntax_highlighter = SubResource("CodeHighlighter_ial6d")
+syntax_highlighter = ExtResource("9_gobhq")
 highlight_current_line = true
 draw_tabs = true
 gutters_draw_executing_lines = true
@@ -381,6 +381,15 @@ editable = false
 
 [node name="levels" type="Node" parent="Task_submission"]
 script = ExtResource("8_svkrs")
+
+[node name="Description" type="Label" parent="Task_submission"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 192.0
+offset_right = 544.0
+offset_bottom = 736.0
+label_settings = SubResource("LabelSettings_a4bwp")
+autowrap_mode = 3
 
 [connection signal="pressed" from="freelancing_home/advance_button" to="." method="_on_advance_button_pressed"]
 [connection signal="pressed" from="freelancing_tasks/task_object/Button" to="." method="_on_task_1_pressed"]

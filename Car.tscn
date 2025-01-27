@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://dijb5c6ha0pey"]
+
+[ext_resource type="Texture2D" uid="uid://k40q1scb14me" path="res://CP_V1.1.0_nyknck/CP_V1.1.0_nyknck/CP_V1.0.4_nyknck/CP_V1.0.4 (1).png" id="1_568j1"]
+[ext_resource type="Script" path="res://Car.gd" id="1_cf6sx"]
+[ext_resource type="AudioStream" uid="uid://djfwqspfalv6i" path="res://car-crash-edit-two-92001_71SnLakf.mp3" id="3_eyam0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_voqnb"]
+atlas = ExtResource("1_568j1")
+region = Rect2(0, 0, 32, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n167h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_voqnb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6f42d"]
+size = Vector2(10, 16)
+
+[node name="car" type="CharacterBody2D"]
+script = ExtResource("1_cf6sx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = -1.5708
+sprite_frames = SubResource("SpriteFrames_n167h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(15, 0)
+shape = SubResource("RectangleShape2D_6f42d")
+
+[node name="Explosion" type="Node2D" parent="."]
+position = Vector2(-9, -1)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Explosion"]
+position = Vector2(27, 1)
+emitting = false
+amount = 1024
+lifetime = 4.0
+one_shot = true
+speed_scale = 2.13
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 32.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 1.65
+scale_amount_max = 5.0
+color = Color(0.541176, 0.254902, 0.101961, 1)
+
+[node name="Explosion_Fx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_eyam0")
+volume_db = 7.64

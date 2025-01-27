@@ -92,7 +92,7 @@ func _process(delta):
 			apps_buttons.visible = true
 			
 	if Input.is_action_just_pressed("exit"):
-		var coordinates = "768 184"
+		var coordinates = "800 400"
 		var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
 		if file:
 			file.store_line(coordinates)  # This will overwrite the file content

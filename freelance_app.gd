@@ -16,12 +16,56 @@ extends Node2D
 	$freelancing_tasks/task_object4
 ]
 @onready var title = $Task_submission/Title
+@onready var description = $Task_submission/Description
+
+var error_line
 var id
 var task
 var old_content = ""
 var is_vs_code_on = false
+# Boolean-related keywords in Python
+const BOOL_KEYWORDS = [
+	"True", "False", "None"
+]
+
+# Logical operators in Python
+const LOGICAL_OPERATORS = [
+	"and", "or", "not"
+]
+
+# Control flow keywords in Python
+const CONTROL_FLOW_KEYWORDS = [
+	"if", "elif", "else", "for", "while", "continue", "break", "pass", 
+	"return", "raise", "try", "except", "finally"
+]
+
+# Data handling and special keywords in Python
+const DATA_KEYWORDS = [
+	"None", "lambda", "yield", "del"
+]
+
+# Definition-related keywords in Python
+const DEFINITION_KEYWORDS = [
+	"def", "class", "global", "nonlocal", "import", "as"
+]
+
+# Async programming keywords in Python
+const ASYNC_KEYWORDS = [
+	"async", "await"
+]
+
+const CODE = preload("res://code.tres")
 
 func _ready():
+	for keyword in BOOL_KEYWORDS:
+		CODE.add_keyword_color(keyword, Color(0, 0.49, 0.176))
+	for keyword in CONTROL_FLOW_KEYWORDS:
+		CODE.add_keyword_color(keyword, Color(0, 0.49, 0.761))
+	for keyword in LOGICAL_OPERATORS:
+		CODE.add_keyword_color(keyword, Color(0, 0.271, 0.243))
+	CODE.add_color_region('"','"', Color(0.714, 0.698, 0.878))
+	CODE.add_color_region("'","'", Color(0.714, 0.698, 0.878))
+	CODE.add_color_region('#','', Color(0.62, 0.62, 0.62))
 	load_levels()
 	# Initialize app state
 	freelancing_home.visible = true
@@ -48,11 +92,10 @@ func clear_task_objects():
 		task.get_node("Button/Label2").text = ""
 
 func _process(delta):
+	print(error_highlighter.position.y)
 	read_py_file()
 	if is_vs_code_on:
 		read_py_file_and_update()
-	if Input.is_action_just_pressed("exit"):
-		get_tree().quit()
 
 func _on_advance_button_pressed():
 	freelancing_tasks.visible = true
@@ -63,6 +106,7 @@ func _on_task_button_pressed():
 	is_vs_code_on = false
 	task_submission.visible = true
 	title.text = task.title
+	description.text = task.description
 
 func _on_submit_button_pressed():
 	check_code()
@@ -85,7 +129,22 @@ func check_code():
 		if task.test_cases:
 			for test_case in task.test_cases:
 				if test_case is Array:
-					print("3lol")
+					for case in test_case:
+						var command = "("
+						for input in test_case:
+							command += "echo " + str(input) + " & "
+						command = command.substr(0, command.length() - 2)
+						command += ")" + " | python " + path
+						write_in_py_file()
+						var output = []
+						OS.execute("CMD.exe", ["/C", command], output, true)
+						output = int(array_to_string(output))
+						if output == expected_output[task.test_cases.find(test_case)]:
+							is_right = true
+						else:
+							is_right = false
+							break
+						print("3lol")
 				elif test_case is String:
 					var command = "echo " + test_case + " | python " + path
 					write_in_py_file()
@@ -100,6 +159,11 @@ func check_code():
 						else:
 							is_right = false
 							break
+	elif expected_output is int:
+		if task.test_cases:
+			for test_case in task.test_cases:
+				if test_case is Array:
+					pass
 	if is_right:
 		task_submission.visible = false
 		accept_dialog.visible = true
@@ -138,6 +202,7 @@ func _on_close_button_pressed():
 	#if error_highlighter.visible:
 		#error_highlighter.visible = false
 	#var code = code_edit.text
+#
 	#var temp_file_path = "user://temp_file.py"
 #
 	#var physical_path = ProjectSettings.globalize_path(temp_file_path)
@@ -145,21 +210,20 @@ func _on_close_button_pressed():
 	#var temp_file = FileAccess.open(temp_file_path, FileAccess.WRITE)
 	#temp_file.store_string(code)
 	#temp_file.close()
-#
+	#
+	#var syntax_analyzer_path = "user://syntax_testing.py"
+	#var syntax_analyzer_physical_path = ProjectSettings.globalize_path(syntax_analyzer_path)
 	#var output = []
-	#var result = OS.execute("python", [physical_path], output, true)
+	#
+	#var result = OS.execute("python", [syntax_analyzer_physical_path], output, true)
 	#print(array_to_string(output))
-#
-	#if "^" in array_to_string(output):
-		#var error_line = int(array_to_string(output).split("\n")[-5].split(" ")[5].strip_edges().rstrip(","))
-		#if code.split("\n").size() > error_line:
-			#error_highlighter.visible = true
-			#error_highlighter.position.y = 4 + (28 * (error_line - 1))
-	#elif "Error" in array_to_string(output):
-		#var error_line = int(array_to_string(output).split("\n")[-4].split(" ")[5].strip_edges().rstrip(","))
+	#print(array_to_string(output).split("\n")[0].split(" ")[-1])
+	#if array_to_string(output):
+		#error_line = int(array_to_string(output).split("\n")[0].split(" ")[-1])
 		#if code.split("\n").size() > error_line:
 			#error_highlighter.visible = true
 			#error_highlighter.position.y = 4 + (29 * (error_line - 1))
+
 
 func _on_run_pressed():
 	var path = "C:\\Users\\aliba\\OneDrive\\Documents\\ProgrammingEducationalGame\\code.py"
