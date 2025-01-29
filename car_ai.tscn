@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5afae48kbvqy"]
+
+[ext_resource type="Texture2D" uid="uid://dgcj1t3uv6lib" path="res://CP_V1.1.0_nyknck/CP_V1.1.0_nyknck/Animations/CP_V1.1.0_nyknck/CP_V1.0.4 (3).png" id="1_84ht5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_636xq"]
+atlas = ExtResource("1_84ht5")
+region = Rect2(0, 0, 32, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1quj1"]
+atlas = ExtResource("1_84ht5")
+region = Rect2(32, 0, 32, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_50qdi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_636xq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1quj1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ue2f6"]
+size = Vector2(22, 42)
+
+[node name="Car_ai" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_50qdi")
+autoplay = "default"
+frame_progress = 0.225811
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ue2f6")

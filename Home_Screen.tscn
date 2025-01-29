@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://4fc1kq27pnqf"]
+
+[ext_resource type="Texture2D" uid="uid://e8nx5xuy756h" path="res://Code for life.png" id="1_aus71"]
+[ext_resource type="Script" path="res://Home_Screen.gd" id="1_bvdk3"]
+[ext_resource type="FontFile" uid="uid://bnwk4n3m2cvod" path="res://Stormfaze.otf" id="2_h3dav"]
+[ext_resource type="StyleBox" uid="uid://qvk5pbu253vp" path="res://HomeButtonNorm.tres" id="3_xgqon"]
+[ext_resource type="StyleBox" uid="uid://cx3dhrk2u0a8t" path="res://HomeButtonHover.tres" id="4_psbxd"]
+
+[node name="Home_Screen" type="Node2D"]
+script = ExtResource("1_bvdk3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_aus71")
+
+[node name="Play" type="Button" parent="."]
+offset_left = 1216.0
+offset_top = 512.0
+offset_right = 1728.0
+offset_bottom = 640.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_h3dav")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = ExtResource("3_xgqon")
+theme_override_styles/hover = ExtResource("4_psbxd")
+theme_override_styles/focus = ExtResource("3_xgqon")
+text = "Play"
+
+[node name="Quit" type="Button" parent="."]
+offset_left = 1216.0
+offset_top = 704.0
+offset_right = 1728.0
+offset_bottom = 832.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_h3dav")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = ExtResource("3_xgqon")
+theme_override_styles/hover = ExtResource("4_psbxd")
+text = "Quit"
+
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]

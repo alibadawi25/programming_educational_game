@@ -6,50 +6,52 @@ extends CharacterBody2D
 @onready var animated_sprite_2d_4 = $AnimatedSprite2D4
 @onready var animated_sprite_2d_5 = $AnimatedSprite2D5
 @onready var animated_sprite_2d_6 = $AnimatedSprite2D6
-const SPEED = 200.0
+@onready var room = $"../"
+var speed = 200
 
 func _physics_process(delta):
-	# Get the input direction
-	var input_vector = Vector2(
-		Input.get_axis("ui_left", "ui_right"),
-		Input.get_axis("ui_up", "ui_down")
-	).normalized()
+	if not room.paused:
+		# Get the input direction
+		var input_vector = Vector2(
+			Input.get_axis("ui_left", "ui_right"),
+			Input.get_axis("ui_up", "ui_down")
+		).normalized()
 
-	# Set velocity based on input
-	velocity = input_vector * SPEED
+		# Set velocity based on input
+		velocity = input_vector * speed
 
-	# Update animation based on movement
-	if input_vector.length() > 0:
-		# Determine direction and play corresponding animation
-		if abs(input_vector.x) > abs(input_vector.y):
-			if input_vector.x > 0:
-				set_animation("walk")
-				animated_sprite_2d.flip_h = false
-				animated_sprite_2d_2.flip_h = false
-				animated_sprite_2d_3.flip_h = false
-				animated_sprite_2d_4.flip_h = false
-				animated_sprite_2d_5.flip_h = false
-				animated_sprite_2d_6.flip_h = false
+		# Update animation based on movement
+		if input_vector.length() > 0:
+			# Determine direction and play corresponding animation
+			if abs(input_vector.x) > abs(input_vector.y):
+				if input_vector.x > 0:
+					set_animation("walk")
+					animated_sprite_2d.flip_h = false
+					animated_sprite_2d_2.flip_h = false
+					animated_sprite_2d_3.flip_h = false
+					animated_sprite_2d_4.flip_h = false
+					animated_sprite_2d_5.flip_h = false
+					animated_sprite_2d_6.flip_h = false
+				else:
+					set_animation("walk")
+					animated_sprite_2d.flip_h = true
+					animated_sprite_2d_2.flip_h = true
+					animated_sprite_2d_3.flip_h = true
+					animated_sprite_2d_4.flip_h = true
+					animated_sprite_2d_5.flip_h = true
+					animated_sprite_2d_6.flip_h = true
+					
 			else:
-				set_animation("walk")
-				animated_sprite_2d.flip_h = true
-				animated_sprite_2d_2.flip_h = true
-				animated_sprite_2d_3.flip_h = true
-				animated_sprite_2d_4.flip_h = true
-				animated_sprite_2d_5.flip_h = true
-				animated_sprite_2d_6.flip_h = true
-				
+				if input_vector.y > 0:
+					set_animation("walk")
+				else:
+					set_animation("walk")
 		else:
-			if input_vector.y > 0:
-				set_animation("walk")
-			else:
-				set_animation("walk")
-	else:
-		# No movement: set idle animation
-		set_animation("idle")
+			# No movement: set idle animation
+			set_animation("idle")
 
-	# Move the character
-	move_and_slide()
+		# Move the character
+		move_and_slide()
 
 func set_animation(animation_name):
 	# Play the given animation on all animated sprites
@@ -67,5 +69,5 @@ func set_animation(animation_name):
 	animated_sprite_2d_5.play()
 	animated_sprite_2d_6.play()
 
-
-
+func set_speed(new_speed):
+	speed = new_speed

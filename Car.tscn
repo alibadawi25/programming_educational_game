@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dijb5c6ha0pey"]
+[gd_scene load_steps=8 format=3 uid="uid://dijb5c6ha0pey"]
 
 [ext_resource type="Texture2D" uid="uid://k40q1scb14me" path="res://CP_V1.1.0_nyknck/CP_V1.1.0_nyknck/CP_V1.0.4_nyknck/CP_V1.0.4 (1).png" id="1_568j1"]
 [ext_resource type="Script" path="res://Car.gd" id="1_cf6sx"]
@@ -20,7 +20,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6f42d"]
-size = Vector2(10, 16)
+size = Vector2(39, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fldrw"]
+size = Vector2(10.5, 20)
 
 [node name="car" type="CharacterBody2D"]
 script = ExtResource("1_cf6sx")
@@ -30,7 +33,7 @@ rotation = -1.5708
 sprite_frames = SubResource("SpriteFrames_n167h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(15, 0)
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_6f42d")
 
 [node name="Explosion" type="Node2D" parent="."]
@@ -56,3 +59,11 @@ color = Color(0.541176, 0.254902, 0.101961, 1)
 [node name="Explosion_Fx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_eyam0")
 volume_db = 7.64
+
+[node name="Car_front" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Car_front"]
+position = Vector2(12.75, 0)
+shape = SubResource("RectangleShape2D_fldrw")

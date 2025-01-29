@@ -17,12 +17,15 @@ extends Node2D
 ]
 @onready var title = $Task_submission/Title
 @onready var description = $Task_submission/Description
-
+@onready var computer_screen = $"../../.."
 var error_line
 var id
 var task
 var old_content = ""
 var is_vs_code_on = false
+var absolute_path
+const CODE_FILE_PATH = "user://code.py"
+
 # Boolean-related keywords in Python
 const BOOL_KEYWORDS = [
 	"True", "False", "None"
@@ -57,6 +60,8 @@ const ASYNC_KEYWORDS = [
 const CODE = preload("res://code.tres")
 
 func _ready():
+	absolute_path = ProjectSettings.globalize_path(CODE_FILE_PATH)  # Convert to real path
+	initialize_code_file()
 	for keyword in BOOL_KEYWORDS:
 		CODE.add_keyword_color(keyword, Color(0, 0.49, 0.176))
 	for keyword in CONTROL_FLOW_KEYWORDS:
@@ -71,6 +76,12 @@ func _ready():
 	freelancing_home.visible = true
 	freelancing_tasks.visible = false
 	task_submission.visible = false
+
+func initialize_code_file():
+	if not FileAccess.file_exists(absolute_path):
+		var file = FileAccess.open(absolute_path, FileAccess.WRITE)
+		file.store_string("")
+		file.close()
 
 func load_levels():
 	clear_task_objects()
@@ -115,16 +126,19 @@ func _on_submit_button_pressed():
 func check_code():
 	var expected_output = task.expected_outputs
 	print(expected_output)
-	var path = "C:\\Users\\aliba\\OneDrive\\Documents\\ProgrammingEducationalGame\\code.py"
+	var error_output = ""
 	var is_right = false
 	if expected_output is String:
 		var output = []
-		var command = "python " + path
+		var command = "python " + absolute_path
 		write_in_py_file()
 		OS.execute("CMD.exe", ["/C", command], output, true)
 		output = array_to_string(output)
 		if output.to_lower().trim_suffix("\r\n") == expected_output.to_lower():
 			is_right = true
+		else:
+			is_right = false
+			error_output = output
 	elif expected_output is Array:
 		if task.test_cases:
 			for test_case in task.test_cases:
@@ -134,7 +148,7 @@ func check_code():
 						for input in test_case:
 							command += "echo " + str(input) + " & "
 						command = command.substr(0, command.length() - 2)
-						command += ")" + " | python " + path
+						command += ")" + " | python " + absolute_path
 						write_in_py_file()
 						var output = []
 						OS.execute("CMD.exe", ["/C", command], output, true)
@@ -143,10 +157,11 @@ func check_code():
 							is_right = true
 						else:
 							is_right = false
+							error_output = output
 							break
 						print("3lol")
 				elif test_case is String:
-					var command = "echo " + test_case + " | python " + path
+					var command = "echo " + test_case + " | python " + absolute_path
 					write_in_py_file()
 					var output = []
 					OS.execute("CMD.exe", ["/C", command], output, true)
@@ -158,6 +173,7 @@ func check_code():
 							is_right = true
 						else:
 							is_right = false
+							error_output = output
 							break
 	elif expected_output is int:
 		if task.test_cases:
@@ -168,12 +184,16 @@ func check_code():
 		task_submission.visible = false
 		accept_dialog.visible = true
 		accept_dialog.dialog_text = "Congrats, you earned " + str(task.outcome) + "💲"
+		computer_screen.add_coins(task.outcome)
 		for level in levels.levels:
 			if level["id"] == task.id:
 				level["is_solved"] = true
 				load_levels()
 		accept_dialog.popup_centered() 
 		accept_dialog.position[1] -= 60
+	else:
+		command_line.text = error_output
+		
 
 func _on_file_selected(path):
 	var output = []
@@ -226,8 +246,8 @@ func _on_close_button_pressed():
 
 
 func _on_run_pressed():
-	var path = "C:\\Users\\aliba\\OneDrive\\Documents\\ProgrammingEducationalGame\\code.py"
-	var command = "python " + path
+	var command = "python " + absolute_path
+	print(absolute_path)
 	var output = []
 	write_in_py_file()
 	OS.execute("CMD.exe", ["/C", command], output, true)
@@ -235,7 +255,7 @@ func _on_run_pressed():
 
 func write_in_py_file():
 	old_content = code_edit.text
-	var file = FileAccess.open("res://code.py", FileAccess.WRITE)
+	var file = FileAccess.open(absolute_path, FileAccess.WRITE)
 	if file:
 		file.store_string(code_edit.text)
 		file.close()
@@ -243,16 +263,16 @@ func write_in_py_file():
 		print("Error: Unable to open file for writing.")
 
 func read_py_file_and_update():
-	var file = FileAccess.open("res://code.py", FileAccess.READ)
+	var file = FileAccess.open(absolute_path, FileAccess.READ)
 	if file:
 		var content = file.get_as_text()
 		file.close()
 		code_edit.text = content
 	else:
-		print("Error: Unable to open file for reading at ", "res://code.py")
+		print("Error: Unable to open file for reading at ", absolute_path)
 
 func read_py_file():
-	var file = FileAccess.open("res://code.py", FileAccess.READ)
+	var file = FileAccess.open(absolute_path, FileAccess.READ)
 	if file:
 		var content = file.get_as_text()
 		file.close()
@@ -260,7 +280,7 @@ func read_py_file():
 			is_vs_code_on = true
 			old_content = content
 	else:
-		print("Error: Unable to open file for reading at ", "res://code.py")
+		print("Error: Unable to open file for reading at ", absolute_path)
 
 
 func array_to_string(arr: Array) -> String:
@@ -275,8 +295,8 @@ func _on_vs_code_pressed():
 func open_vscode():
 	is_vs_code_on = true
 	# You can open a specific file or the whole project folder.
-	var project_path = ProjectSettings.globalize_path("res://code.py")  # Path to the Godot project
-	var command = "code" + " " + project_path  # Command to open VS Code with the project folder
+
+	var command = "code" + " " + absolute_path  # Command to open VS Code with the project folder
 	var output = []
 	write_in_py_file()
 	OS.execute("CMD.exe", ["/C", command], output)
