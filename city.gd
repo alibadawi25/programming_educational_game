@@ -14,6 +14,19 @@ extends Node2D
 
 @onready var player = $Player
 @onready var player_camera_2d = $Player/Camera2D
+@onready var halal_music = $Halal_music
+@onready var wasted_screen = $"CanvasLayer/Wasted Screen"
+
+@onready var point = $MapAiChasePoints/point
+@onready var point_2 = $MapAiChasePoints/point2
+@onready var point_3 = $MapAiChasePoints/point3
+@onready var point_4 = $MapAiChasePoints/point4
+@onready var point_5 = $MapAiChasePoints/point5
+@onready var point_6 = $MapAiChasePoints/point6
+
+@onready var points = [point, point_2, point_3, point_4, point_5, point_6]
+
+
 var paused = false
 var can_enter_car = false
 var can_enter_house = true
@@ -29,9 +42,11 @@ var ai_stop = false
 var stop_time = 0
 var coins
 var is_tutorial = false
+var is_first_time_playing = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	player.set_speed(100)
+	#halal_music.play()
+	player.set_speed(80)
 	old_car_pos = car_pos
 	var file = FileAccess.open("user://data.txt", FileAccess.READ)
 	if file:
@@ -53,69 +68,71 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 
-
-	if not ai_stop:
-		if not siren.playing: 
-			siren.play()
-		stop_time = 0
-		car_ai.position = Vector2(320, 672)
-		car_ai.position += path_follow_2d.position *2
-		path_follow_2d.progress += 1
-		
-		car_pos = car_ai.position
-		set_car_ai_direction()
-	else:
-		
-		stop_time += delta
-		if stop_time > 2:
-			siren.playing = false
-			if not horn.playing and not siren.playing:
-				horn.play()
-		if not siren.playing and not horn.playing: 
-			siren.play()
+	if not paused:
+		if not ai_stop or car_ai.chase:
+			if not siren.playing: 
+				siren.play()
+			stop_time = 0
+			#car_ai.position = Vector2(320, 672)
+			#car_ai.position += path_follow_2d.position *2
+			#var speed = 100
+			#path_follow_2d.progress += delta * speed
+			#
+			#car_pos = car_ai.position
+			#set_car_ai_direction()
+		else:
 			
-	if Input.is_action_just_pressed("exit"):
-		var coordinates = "800 400"
-		var filedata = coordinates + "\n" + "false"  + "\n" + str(is_tutorial) + "\n" + str(coins)
-		var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
-		if file:
-			file.store_line(filedata)  # This will overwrite the file content
-			file.close()  # Always close the file when done
-		else:
-			print("Failed to open file.")
-		get_tree().quit()
+			stop_time += delta
+			if stop_time > 2:
+				siren.playing = false
+				if not horn.playing and not siren.playing:
+					horn.play()
+			if not siren.playing and not horn.playing: 
+				siren.play()
+				
+		#if Input.is_action_just_pressed("exit"):
+			#var coordinates = "800 400"
+			#var filedata = coordinates + "\n" + "false"  + "\n" + str(is_tutorial) + "\n" + str(coins)
+			#var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
+			#if file:
+				#file.store_line(filedata)  # This will overwrite the file content
+				#file.close()  # Always close the file when done
+			#else:
+				#print("Failed to open file.")
+			#get_tree().quit()
+			
+		if car_crashed:
+			car.speed = 0  # Stop the car when it crashes
 		
-	if car_crashed:
-		car.speed = 0  # Stop the car when it crashes
-	
-	if not player.visible and label.visible:
-		label.visible = false
+		if not player.visible and label.visible:
+			label.visible = false
 
-	
-	if can_enter_car and Input.is_action_just_pressed("R") and not is_in_car:
-		player.visible = false
-		camera_2d.make_current()
-		is_in_car = true
 		
-	elif Input.is_action_just_pressed("R") and is_in_car:
-		player.visible = true
-		player_camera_2d.make_current()
-		player.position = exit_point.global_position
+		if can_enter_car and Input.is_action_just_pressed("R") and not is_in_car:
+			player.visible = false
+			camera_2d.make_current()
+			is_in_car = true
+			
+		elif Input.is_action_just_pressed("R") and is_in_car:
+			player.visible = true
+			player_camera_2d.make_current()
+			player.position = exit_point.global_position
 
-		is_in_car = false
+			is_in_car = false
+			
+		if can_enter_house and Input.is_action_just_pressed("E"):
+			get_tree().change_scene_to_file("res://room.tscn")
 		
-	if can_enter_house and Input.is_action_just_pressed("E"):
-		get_tree().change_scene_to_file("res://room.tscn")
-	
-	if is_in_car:
-		# Handle camera shake
-		if shake_time > 0:
-			shake_time -= delta
-			shake_camera()
-		else:
-			camera_2d.zoom = Vector2(2, 2)
-			camera_2d.offset = Vector2.ZERO  # Reset the camera position when shaking ends
-
+		if is_in_car:
+			# Handle camera shake
+			if shake_time > 0:
+				shake_time -= delta
+				shake_camera()
+			else:
+				camera_2d.zoom = Vector2(2, 2)
+				camera_2d.offset = Vector2.ZERO  # Reset the camera position when shaking ends
+	else:
+		siren.playing = false
 # Add a function to perform the camera shake effect
 func shake_camera():
 	# Apply random offsets within the shake magnitude
@@ -172,37 +189,11 @@ func _on_area_2d_body_exited(body):
 	#if body.name == "car":
 		#is_car_in_water = false
 
-func set_car_ai_direction():
-	# Ensure car_pos and old_car_pos are initialized
-	if old_car_pos == null:
-		old_car_pos = car_pos
-		return
-
-	# Calculate movement delta
-	var delta = car_pos - old_car_pos
-
-	# Determine the direction based on the delta
-	if delta.length() > 0:  # Only update direction if there's movement
-		if abs(delta.x) > abs(delta.y):  # Horizontal movement is stronger
-			if delta.x >= 0:
-				car_ai.rotation = 3 * PI / 2  # Moving to the right (270 degrees)
-			else:
-				car_ai.rotation = PI / 2  # Moving to the left (90 degrees)
-		else:  # Vertical movement is stronger
-			if delta.y >= 0:
-				car_ai.rotation = 0 # Moving down (180 degrees)
-			else:
-				car_ai.rotation = PI  # Moving up (0 degrees)
-
-	# Update the old position for the next comparison
-	old_car_pos = car_pos
-
-
-
-
 
 func _on_car_collision_body_entered(body):
+	print(body)
 	if body.name == "Car_ai":
+		car_ai.chase = true
 		car_crashed = true
 
 		# Set the number of particles based on the car's speed
@@ -210,16 +201,19 @@ func _on_car_collision_body_entered(body):
 		explosion.amount = particle_count
 		explosion.emitting = true  # Start emitting particles when crash happens
 
-		# Set the volume based on car speed
-		var volume = abs(car.speed) / 10.0 - 30  # Normalize speed to a volume range (-60 dB to 0 dB)
-		explosion_sound.volume_db = volume
+		# Set the volume based on car speed, adjusting more drastically for higher speed
+		var volume = clamp(abs(car.speed) / 5.0 - 40, -60, 0)  # Normalize speed to a volume range (-60 dB to 0 dB)
+		explosion_sound.volume_db = volume  # Apply the calculated volume
+
+		# Optionally change the pitch for more variation in sound
+		explosion_sound.pitch_scale = 1 + (abs(car.speed) / car.MAX_SPEED) * 0.5  # Scale pitch based on speed
 
 		explosion_sound.play()
 
 		# Start camera shake with magnitude and duration based on speed
 		shake_magnitude = abs(car.speed) / 50.0  # Scale shake magnitude with speed
 		shake_time = 0.5  # Shake duration (adjust as needed)
-		camera_2d.zoom = Vector2(2.3, 2.3)
+		camera_2d.zoom = Vector2(2.3, 2.3)  # Zoom in during the crash
 
 
 func _on_car_collision_body_exited(body):
@@ -228,15 +222,15 @@ func _on_car_collision_body_exited(body):
 		explosion.emitting = false  # Stop emitting particles when crash is over
 
 
-func _on_ai_car_front_area_body_entered(body):
-	if body.name == "car" or body.name == "Player":
-		ai_stop = true
-	
-
-
-func _on_ai_car_front_area_body_exited(body):
-	if body.name == "car" or body.name == "Player":
-		ai_stop = false
+#func _on_ai_car_front_area_body_entered(body):
+	#if body.name == "car" or body.name == "Player":
+		#ai_stop = true
+	#
+#
+#
+#func _on_ai_car_front_area_body_exited(body):
+	#if body.name == "car" or body.name == "Player":
+		#ai_stop = false
 
 
 func _on_car_crash_area_entered(area):
@@ -248,16 +242,19 @@ func _on_car_crash_area_entered(area):
 		explosion.amount = particle_count
 		explosion.emitting = true  # Start emitting particles when crash happens
 
-		# Set the volume based on car speed
-		var volume = abs(car.speed) / 10.0 - 30  # Normalize speed to a volume range (-60 dB to 0 dB)
-		explosion_sound.volume_db = volume
+		# Set the volume based on car speed, adjusting more drastically for higher speed
+		var volume = clamp(abs(car.speed) / 5.0 - 40, -60, 0)  # Normalize speed to a volume range (-60 dB to 0 dB)
+		explosion_sound.volume_db = volume  # Apply the calculated volume
+
+		# Optionally change the pitch for more variation in sound
+		explosion_sound.pitch_scale = 1 + (abs(car.speed) / car.MAX_SPEED) * 0.5  # Scale pitch based on speed
 
 		explosion_sound.play()
 
 		# Start camera shake with magnitude and duration based on speed
 		shake_magnitude = abs(car.speed) / 50.0  # Scale shake magnitude with speed
 		shake_time = 0.5  # Shake duration (adjust as needed)
-		camera_2d.zoom = Vector2(2.3, 2.3)
+		camera_2d.zoom = Vector2(2.3, 2.3)  # Zoom in during the crash
 
 
 func _on_car_crash_area_exited(area):

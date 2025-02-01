@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c12tcsrham0oa"]
+[gd_scene load_steps=18 format=3 uid="uid://c12tcsrham0oa"]
 
 [ext_resource type="Script" path="res://computer_screen.gd" id="1_nua6c"]
 [ext_resource type="Texture2D" uid="uid://dsu721o3alker" path="res://laptop_black_screen.png" id="1_xjxrj"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://xuqv753ygu4u" path="res://pngwing.com (4).png" id="8_aqjcx"]
 [ext_resource type="Texture2D" uid="uid://cnc6pvksau3bm" path="res://pngegg (1).png" id="9_xmo4l"]
 [ext_resource type="FontFile" uid="uid://of2g6xqam0ls" path="res://yoster.ttf" id="12_75ccl"]
+[ext_resource type="AudioStream" uid="uid://cu86cdu7c7o6" path="res://game_music.mp3" id="13_tfft1"]
 [ext_resource type="PackedScene" uid="uid://dr7quioi2l4du" path="res://youtube.tscn" id="14_148xh"]
 [ext_resource type="FontFile" uid="uid://dq8kvjifh2xmf" path="res://joystix monospace.otf" id="16_yn3t0"]
 [ext_resource type="PackedScene" uid="uid://nrwuwt26y6wb" path="res://freelance_app.tscn" id="18_f35jw"]
@@ -203,6 +204,10 @@ text = "Click on the \"Cashing App\" to gain money by programming!!!"
 label_settings = SubResource("LabelSettings_bx0bf")
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="Halal_music" type="AudioStreamPlayer2D" parent="screen"]
+stream = ExtResource("13_tfft1")
+volume_db = -11.844
 
 [connection signal="pressed" from="screen/AppsButtons/utube" to="." method="_on_utube_pressed"]
 [connection signal="pressed" from="screen/AppsButtons/cashing_app" to="." method="_on_cashing_app_pressed"]

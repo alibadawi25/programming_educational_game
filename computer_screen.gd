@@ -15,7 +15,7 @@ extends Node2D
 @onready var error_dialog = $screen/Apps/freelance_app/Task_submission/ErrorDialog
 @onready var error_highlighter = $screen/Apps/freelance_app/Task_submission/CodeEdit/error_highlighter
 @onready var command_line = $screen/Apps/freelance_app/Task_submission/command_line
-@onready var levels = $screen/Apps/freelance_app/Task_submission/levels
+@onready var tasks = $screen/Apps/freelance_app/Task_submission/levels
 @onready var bank = $screen/Apps/bank
 @onready var cash = $screen/Apps/bank/cash
 @onready var tutorial = $screen/Tutorial
@@ -23,6 +23,7 @@ extends Node2D
 @onready var cashing_app_button = $screen/AppsButtons/cashing_app
 @onready var bank_button = $screen/AppsButtons/bank
 @onready var power_off_button = $screen/AppsButtons/power_off
+@onready var halal_music = $screen/Halal_music
 
 # Boolean-related keywords in Python
 const BOOL_KEYWORDS = [
@@ -65,6 +66,7 @@ var time_accumulator = 0.0
 var loading_time = 1.0 
 var is_vs_code_on = false
 var is_tutorial = false
+var is_first_time_playing = false
 func _ready():
 	absolute_path = ProjectSettings.globalize_path(CODE_FILE_PATH)  # Convert to real path
 	for keyword in BOOL_KEYWORDS:
@@ -114,6 +116,8 @@ func _process(delta):
 			time_accumulator -= 0.1
 		loading_time -= delta
 		if loading_time <= 0:
+			#if not halal_music.playing:
+				#halal_music.play()
 			isLoading = false  
 			loading.visible = false
 			apps_buttons.visible = true
@@ -122,18 +126,15 @@ func _process(delta):
 				utube_button.disabled = true
 				bank_button.disabled = true
 				power_off_button.disabled = true
-			
+	#else:
+		#if not halal_music.playing:
+			#halal_music.play()
 			
 	if Input.is_action_just_pressed("exit"):
-		var coordinates = "800 400"
-		var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
-		var filedata = coordinates + "\n" + "false"  + "\n" + str(is_tutorial) + "\n" + str(coins)
-		if file:
-			file.store_line(filedata)  # This will overwrite the file content
-			file.close()  # Always close the file when done
+		if apps.visible:
+			_on_close_button_pressed()
 		else:
-			print("Failed to open file.")
-		get_tree().quit()
+			_on_power_off_pressed()
 
 func _on_utube_pressed():
 	apps_buttons.visible = false

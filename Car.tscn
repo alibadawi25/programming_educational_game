@@ -58,7 +58,8 @@ color = Color(0.541176, 0.254902, 0.101961, 1)
 
 [node name="Explosion_Fx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_eyam0")
-volume_db = 7.64
+volume_db = 13.562
+bus = &"SFX"
 
 [node name="Car_front" type="Area2D" parent="."]
 collision_layer = 2

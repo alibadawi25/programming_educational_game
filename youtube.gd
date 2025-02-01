@@ -28,8 +28,7 @@ func _ready():
 	load_videos(links)
 
 func _process(delta):
-	if Input.is_action_just_pressed("exit"):
-		get_tree().quit()
+	pass
 
 func load_videos(links):
 	links.shuffle()

@@ -17,6 +17,7 @@ extends Node2D
 @onready var dialogue_separate_time = $Panel/Dialogue1/dialogue_separate_time
 @onready var tutorial = $Tutorial
 @onready var tutorial_collision = $Tutorial/StaticBody2D
+@onready var halal_music = $Halal_music
 
 var dialogue_dr_finished = false
 var dialogue_me_finished = false
@@ -32,7 +33,8 @@ var is_tutorial = false
 var coins
 
 func _ready():
-	camera_2d.zoom = Vector2(1.4, 1.4)
+
+	camera_2d.zoom = Vector2(1.2, 1.2)
 	camera_2d.limit_left = -20
 	camera_2d.limit_right = 1620
 	camera_2d.limit_bottom = 1222
@@ -109,7 +111,6 @@ func _process(delta):
 			var player_y = player.position.y
 			var coordinates = str(player_x) + " " + str(player_y)
 			var filedata = coordinates + "\n" + str(is_first_time_playing) + "\n" + str(is_tutorial) + "\n" + str(coins)
-			print(filedata)
 			var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
 			if file:
 				file.store_line(filedata)  # This will overwrite the file content
@@ -149,16 +150,8 @@ func _process(delta):
 				else:
 					dialogue_me.stop()
 					dialogue_me_finished = true
-	if Input.is_action_just_pressed("exit"):
-		var coordinates = "800 400"
-		var filedata = coordinates + "\n" +str(is_first_time_playing)  + "\n" + str(is_tutorial) + "\n" + str(coins)
-		var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
-		if file:
-			file.store_line(filedata)  # This will overwrite the file content
-			file.close()  # Always close the file when done
-		else:
-			print("Failed to open file.")
-		get_tree().quit()
+	#if Input.is_action_just_pressed("exit"):
+
 	
 	
 
@@ -180,7 +173,6 @@ func _on_area_2d_body_exited(body):
 
 
 func _on_area_2d_2_body_entered(body):
-	print(body.name)
 	if body.name == "Player":
 		leave_label.visible = true
 		can_leave_room = true

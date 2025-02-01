@@ -17,6 +17,10 @@ extends Node2D
 ]
 @onready var title = $Task_submission/Title
 @onready var description = $Task_submission/Description
+@onready var error_dialog = $Task_submission/ErrorDialog
+@onready var input_pop_up = $Task_submission/InputPopUp
+@onready var line_edit = $Task_submission/InputPopUp/LineEdit
+
 @onready var computer_screen = $"../../.."
 var error_line
 var id
@@ -24,7 +28,11 @@ var task
 var old_content = ""
 var is_vs_code_on = false
 var absolute_path
+var solved_tasks=[]
 const CODE_FILE_PATH = "user://code.py"
+const TASKS_FILE_PATH = "user://tasks.txt"
+
+var inputs = []
 
 # Boolean-related keywords in Python
 const BOOL_KEYWORDS = [
@@ -60,6 +68,22 @@ const ASYNC_KEYWORDS = [
 const CODE = preload("res://code.tres")
 
 func _ready():
+	var tasks_path = ProjectSettings.globalize_path(TASKS_FILE_PATH)
+
+	if FileAccess.file_exists(tasks_path):
+		var file = FileAccess.open(tasks_path, FileAccess.READ)
+		if file:
+			while not file.eof_reached():  # Read until end of file
+				var line = file.get_line().strip_edges()  # Read a line and remove whitespace
+				if line != "":  # Ignore empty lines
+					solved_tasks.append(int(line))
+			file.close()
+	
+	
+	for level in levels.levels:
+		if level.id in solved_tasks:
+			level.is_solved = true
+			
 	absolute_path = ProjectSettings.globalize_path(CODE_FILE_PATH)  # Convert to real path
 	initialize_code_file()
 	for keyword in BOOL_KEYWORDS:
@@ -103,7 +127,6 @@ func clear_task_objects():
 		task.get_node("Button/Label2").text = ""
 
 func _process(delta):
-	print(error_highlighter.position.y)
 	read_py_file()
 	if is_vs_code_on:
 		read_py_file_and_update()
@@ -125,81 +148,103 @@ func _on_submit_button_pressed():
 
 func check_code():
 	var expected_output = task.expected_outputs
-	print(expected_output)
 	var error_output = ""
+	var error_test_case = ""
+	var error_expected_output = ""
 	var is_right = false
+
+	write_in_py_file()  # Ensure user code is written before execution
+
 	if expected_output is String:
 		var output = []
-		var command = "python " + absolute_path
-		write_in_py_file()
+		var command = "echo | python " + absolute_path
 		OS.execute("CMD.exe", ["/C", command], output, true)
-		output = array_to_string(output)
-		if output.to_lower().trim_suffix("\r\n") == expected_output.to_lower():
+		output = array_to_string(output).strip_edges()
+		
+		if output.to_lower() == expected_output.to_lower():
 			is_right = true
 		else:
 			is_right = false
 			error_output = output
+
 	elif expected_output is Array:
 		if task.test_cases:
 			for test_case in task.test_cases:
+				# Write inputs to input.txt for redirection
+				var input_file_path = "input.txt"
+				var file = FileAccess.open(input_file_path, FileAccess.WRITE)
 				if test_case is Array:
-					for case in test_case:
-						var command = "("
-						for input in test_case:
-							command += "echo " + str(input) + " & "
-						command = command.substr(0, command.length() - 2)
-						command += ")" + " | python " + absolute_path
-						write_in_py_file()
-						var output = []
-						OS.execute("CMD.exe", ["/C", command], output, true)
-						output = int(array_to_string(output))
-						if output == expected_output[task.test_cases.find(test_case)]:
-							is_right = true
-						else:
-							is_right = false
-							error_output = output
-							break
-						print("3lol")
-				elif test_case is String:
-					var command = "echo " + test_case + " | python " + absolute_path
-					write_in_py_file()
-					var output = []
-					OS.execute("CMD.exe", ["/C", command], output, true)
-					print(expected_output[task.test_cases.find(test_case)].to_lower())
-					output = array_to_string(output)
-					if output:
-						print(output.to_lower().trim_suffix(" \r\n"))
-						if output.to_lower().trim_suffix(" \r\n") == expected_output[task.test_cases.find(test_case)].to_lower():
-							is_right = true
-						else:
-							is_right = false
-							error_output = output
-							break
-	elif expected_output is int:
-		if task.test_cases:
-			for test_case in task.test_cases:
-				if test_case is Array:
-					pass
+					for input_value in test_case:
+						file.store_line(str(input_value))  # Store each input on a new line
+				else:
+					file.store_line(str(test_case))  # Handle single input case
+				file.close()
+
+				# Execute Python script using redirected input
+				var command = "python " + absolute_path + " < " + input_file_path
+				var output = []
+				OS.execute("CMD.exe", ["/C", command], output, true)
+				output = array_to_string(output).strip_edges()
+
+				# Validate output
+				if output == expected_output[task.test_cases.find(test_case)]:
+					is_right = true
+				else:
+					is_right = false
+					error_test_case = test_case
+					error_expected_output = expected_output[task.test_cases.find(test_case)]
+					error_output = output
+					break  # Stop on first incorrect test case
+
+				# Delete input.txt after execution
+				OS.execute("CMD.exe", ["/C", "del input.txt"], [], false)
+
+	# Handle test case validation results
 	if is_right:
 		task_submission.visible = false
 		accept_dialog.visible = true
 		accept_dialog.dialog_text = "Congrats, you earned " + str(task.outcome) + "💲"
+
+		# Update solved tasks file
+		var levels_path = ProjectSettings.globalize_path(TASKS_FILE_PATH)
+		if FileAccess.file_exists(levels_path):
+			var file = FileAccess.open(levels_path, FileAccess.READ_WRITE)
+			file.seek_end()
+			file.store_string(str(task.id) + "\n")
+			file.close()
+		else:
+			print("Error: Unable to open file for writing.")
+
 		computer_screen.add_coins(task.outcome)
+
+		# Mark level as solved
 		for level in levels.levels:
 			if level["id"] == task.id:
 				level["is_solved"] = true
 				load_levels()
-		accept_dialog.popup_centered() 
+
+		accept_dialog.popup_centered()
 		accept_dialog.position[1] -= 60
 	else:
-		command_line.text = error_output
-		
+		print(error_output)
+
+		if "echo" in error_output.to_lower():
+			command_line.text = ""
+		elif "error" in error_output.to_lower():
+			if "EOFError: EOF when reading a line" in error_output:
+				command_line.text = "The Task Requires "+str(error_test_case.size())+" inputs only!"
+			else:
+				command_line.text = error_output
+		elif "is not" in error_output:
+			error_dialog.dialog_text = "Python is not installed on your device!\nPlease install it first."
+			error_dialog.visible = true
+		else:
+			command_line.text = "For test case \"" + array_to_string(error_test_case) + "\" you should have outputted \"" + str(error_expected_output) + "\" but instead you outputted \"" + str(error_output) + "\"."
 
 func _on_file_selected(path):
 	var output = []
 	var command = "python " + path
 	OS.execute("CMD.exe", ["/C", command], output)
-	print(output)
 	if array_to_string(output).to_lower() == "hello world\r\n":
 		task_submission.visible = false
 		accept_dialog.visible = true
@@ -246,12 +291,44 @@ func _on_close_button_pressed():
 
 
 func _on_run_pressed():
-	var command = "python " + absolute_path
-	print(absolute_path)
+	command_line.text = ""
+	var command = ""
+	
+	var input_file_path = "input.txt"
+	var file = FileAccess.open(input_file_path, FileAccess.WRITE)
+	for input_value in inputs:
+		file.store_line(str(input_value))  # Store each input on a new line
+	file.close()
+
+	# Redirect input.txt to Python
+	command = "python " + absolute_path + " < " + input_file_path
+
 	var output = []
-	write_in_py_file()
+	write_in_py_file()  # Ensure the user's code is written before execution
+	
 	OS.execute("CMD.exe", ["/C", command], output, true)
-	command_line.text = array_to_string(output)
+
+	var output_str = array_to_string(output)
+
+	if "error" in output_str.to_lower():
+		if "EOFError: EOF when reading a line" not in output_str:
+			command_line.text = output_str
+			inputs.clear()
+			command = ""
+		else:
+			input_pop_up.show()
+	elif "is not" in output_str.to_lower():
+		error_dialog.dialog_text = "Python is not installed on your device!\nPlease install it first."
+		error_dialog.visible = true
+	else:
+		command_line.text = output_str.replace("\r\n", "\n")  # Normalize newlines
+		inputs.clear()
+		command = ""
+
+	# Clean up input file after execution
+	OS.execute("CMD.exe", ["/C", "del input.txt"], [], false)
+
+
 
 func write_in_py_file():
 	old_content = code_edit.text
@@ -286,7 +363,7 @@ func read_py_file():
 func array_to_string(arr: Array) -> String:
 	var s = ""
 	for i in arr:
-		s += String(i)
+		s += str(i)
 	return s
 
 func _on_vs_code_pressed():
@@ -299,7 +376,12 @@ func open_vscode():
 	var command = "code" + " " + absolute_path  # Command to open VS Code with the project folder
 	var output = []
 	write_in_py_file()
-	OS.execute("CMD.exe", ["/C", command], output)
+	OS.execute("CMD.exe", ["/C", command], output, true)
+	if "is not" in array_to_string(output):
+		is_vs_code_on = false
+		error_dialog.dialog_text = "Visual Studio Code is not downloaded on your device!\nPlease download it first if you want to use this feature."
+		error_dialog.visible = true
+
 
 
 func _on_code_edit_mouse_entered():
@@ -334,4 +416,15 @@ func _on_task_3_pressed():
 
 
 func _on_task_4_pressed():
-	pass # Replace with function body.
+	var title = task_objects[3].get_node("Button/Label").text
+	for level in levels.levels:
+		if level["title"] == title:
+			id = level["id"]
+			task = level
+			_on_task_button_pressed()
+
+
+func _on_input_pop_up_confirmed():
+	inputs.append(line_edit.text)
+	line_edit.clear()
+	_on_run_pressed()

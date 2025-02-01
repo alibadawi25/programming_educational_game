@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ct0xt5jbyy7kn"]
+[gd_scene load_steps=20 format=3 uid="uid://ct0xt5jbyy7kn"]
 
 [ext_resource type="Script" path="res://room.gd" id="1_5gpi1"]
 [ext_resource type="Texture2D" uid="uid://ly7pw516rkey" path="res://InteriorTilesLITE.png" id="1_ttb01"]
@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://bnwk4n3m2cvod" path="res://Stormfaze.otf" id="5_1gv6g"]
 [ext_resource type="AudioStream" uid="uid://iw4pileap74a" path="res://dialogues_audios/dialogue1/ElevenLabs_2025-01-28T21_04_03_Brian_pre_s50_sb75_se0_b_m2.mp3" id="6_rioth"]
 [ext_resource type="AudioStream" uid="uid://bfs2ygab6qg3" path="res://dialogues_audios/dialogue1/ElevenLabs_2025-01-28T21_05_34_Matilda_pre_s50_sb75_se0_b_m2.mp3" id="7_1g7at"]
+[ext_resource type="PackedScene" uid="uid://61jtpdjlbiis" path="res://pause_menu.tscn" id="9_1kusu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_47uba"]
 texture = ExtResource("1_ttb01")
@@ -2171,6 +2172,11 @@ offset_bottom = 277.0
 text = "Use your arrows to move towards the laptop"
 label_settings = SubResource("LabelSettings_2t5pg")
 autowrap_mode = 2
+
+[node name="PauseCanvas" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" parent="PauseCanvas" instance=ExtResource("9_1kusu")]
+visible = false
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
