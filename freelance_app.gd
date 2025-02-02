@@ -239,7 +239,7 @@ func check_code():
 			error_dialog.dialog_text = "Python is not installed on your device!\nPlease install it first."
 			error_dialog.visible = true
 		else:
-			command_line.text = "For test case \"" + array_to_string(error_test_case) + "\" you should have outputted \"" + str(error_expected_output) + "\" but instead you outputted \"" + str(error_output) + "\"."
+			command_line.text = "For test case (" + array_to_string2(error_test_case) + "), you should have output \"" + str(error_expected_output) + "\", but instead you output \"" + str(error_output) + "\"."
 
 func _on_file_selected(path):
 	var output = []
@@ -365,6 +365,18 @@ func array_to_string(arr: Array) -> String:
 	for i in arr:
 		s += str(i)
 	return s
+
+
+func array_to_string2(arr: Array) -> String:
+	var result = ""
+	for i in range(arr.size()):
+		result += '"' + str(arr[i]) + '"'
+		if i < arr.size() - 1:
+			result += ", "
+	return result
+
+
+
 
 func _on_vs_code_pressed():
 	open_vscode()

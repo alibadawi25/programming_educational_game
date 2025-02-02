@@ -41,15 +41,15 @@ func _process(delta):
 			
 		if not global_position.distance_to(world.car.position) < 95.0:
 			if progress_bar.value > 0:
-				progress_bar.value -= 0.1
+				progress_bar.value -= 5 * delta
 
 		else:
 			if chase:
 				if progress_bar.value < 100:
 					if progress_bar.value < 50:
-						progress_bar.value += 0.4
+						progress_bar.value += 20 * delta
 					else: 
-						progress_bar.value += 0.2
+						progress_bar.value += 10 * delta
 		
 		if progress_bar.value <= 0:
 			progress_bar.visible = false
