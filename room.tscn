@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ct0xt5jbyy7kn"]
+[gd_scene load_steps=25 format=3 uid="uid://ct0xt5jbyy7kn"]
 
 [ext_resource type="Script" path="res://room.gd" id="1_5gpi1"]
 [ext_resource type="Texture2D" uid="uid://ly7pw516rkey" path="res://InteriorTilesLITE.png" id="1_ttb01"]
@@ -8,6 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://iw4pileap74a" path="res://dialogues_audios/dialogue1/ElevenLabs_2025-01-28T21_04_03_Brian_pre_s50_sb75_se0_b_m2.mp3" id="6_rioth"]
 [ext_resource type="AudioStream" uid="uid://bfs2ygab6qg3" path="res://dialogues_audios/dialogue1/ElevenLabs_2025-01-28T21_05_34_Matilda_pre_s50_sb75_se0_b_m2.mp3" id="7_1g7at"]
 [ext_resource type="PackedScene" uid="uid://61jtpdjlbiis" path="res://pause_menu.tscn" id="9_1kusu"]
+[ext_resource type="PackedScene" uid="uid://bryn8ko8rjs8f" path="res://ui_ux.tscn" id="9_w21k2"]
+[ext_resource type="AudioStream" uid="uid://dk055gr4ksuop" path="res://dialogues_audios/meet_me_outside/meet_me_outside_dr_dialogue.mp3" id="10_qm25q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_47uba"]
 texture = ExtResource("1_ttb01")
@@ -1953,6 +1955,19 @@ size = Vector2(352, 64)
 font = ExtResource("4_56ham")
 font_size = 32
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3xga"]
+size = Vector2(112, 120)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_pwl3h"]
+vertices = PackedVector2Array(2572, 1325, -133, 1318, -126, -182, 2430, -213)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-136, -192, -144, 1328, 2584, 1336, 2440, -224)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
+[sub_resource type="Gradient" id="Gradient_rx41u"]
+interpolation_mode = 2
+colors = PackedColorArray(0.172549, 0, 0.596078, 0.603922, 0.380392, 0.333333, 1, 0.603922)
+
 [node name="Room" type="Node2D"]
 position = Vector2(0, 96)
 script = ExtResource("1_5gpi1")
@@ -2005,15 +2020,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Area2D2" type="Area2D" parent="."]
+[node name="door" type="Area2D" parent="."]
 position = Vector2(-48, 744)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="door"]
 z_index = 2
 position = Vector2(46, 0)
 shape = SubResource("RectangleShape2D_nmkew")
 
-[node name="Label" type="Label" parent="Area2D2"]
+[node name="Label" type="Label" parent="door"]
 visible = false
 z_index = 3
 offset_left = 56.0
@@ -2178,11 +2193,51 @@ autowrap_mode = 2
 [node name="VBoxContainer" parent="PauseCanvas" instance=ExtResource("9_1kusu")]
 visible = false
 
+[node name="UI_UX_Canvas" type="CanvasLayer" parent="."]
+
+[node name="UI_UX" parent="UI_UX_Canvas" instance=ExtResource("9_w21k2")]
+visible = false
+
+[node name="Mob_Area" type="Area2D" parent="."]
+position = Vector2(640, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mob_Area"]
+position = Vector2(0, 12)
+shape = SubResource("RectangleShape2D_x3xga")
+
+[node name="meet_me_outside_dialogue" type="AudioStreamPlayer2D" parent="Mob_Area"]
+stream = ExtResource("10_qm25q")
+
+[node name="meet_me_outside_label" type="Label" parent="Mob_Area"]
+visible = false
+z_index = 3
+offset_left = -440.0
+offset_top = 224.0
+offset_right = 62.0
+offset_bottom = 353.0
+text = "Meet me outside, you will find me in the parking by my car"
+label_settings = SubResource("LabelSettings_2l2vl")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_pwl3h")
+
+[node name="Line2D" type="Line2D" parent="."]
+z_index = 100
+width = 4.0
+default_color = Color(0.380392, 0.333333, 1, 0.603922)
+gradient = SubResource("Gradient_rx41u")
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
-[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
-[connection signal="body_exited" from="Area2D2" to="." method="_on_area_2d_2_body_exited"]
+[connection signal="body_entered" from="door" to="." method="_on_area_2d_2_body_entered"]
+[connection signal="body_exited" from="door" to="." method="_on_area_2d_2_body_exited"]
 [connection signal="finished" from="Panel/Dialogue1/Dialogue_dr" to="." method="_on_dialogue_dr_finished"]
 [connection signal="finished" from="Panel/Dialogue1/Dialogue_me" to="." method="_on_dialogue_me_finished"]
 [connection signal="timeout" from="Panel/Dialogue1/Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Panel/Dialogue1/dialogue_separate_time" to="." method="_on_dialogue_separate_time_timeout"]
+[connection signal="body_entered" from="Mob_Area" to="." method="_on_mob_area_body_entered"]
+[connection signal="finished" from="Mob_Area/meet_me_outside_dialogue" to="." method="_on_meet_me_outside_dialogue_finished"]

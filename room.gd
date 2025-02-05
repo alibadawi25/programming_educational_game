@@ -4,7 +4,7 @@ extends Node2D
 @onready var camera_2d = $Player/Camera2D
 @onready var player = $Player
 @onready var coins_label = $Player/Camera2D/Label
-@onready var leave_label = $Area2D2/Label
+@onready var leave_label = $door/Label
 @onready var camera = $Camera2D
 @onready var panel = $Panel
 @onready var me = $Panel/Dialogue1/Me
@@ -18,6 +18,12 @@ extends Node2D
 @onready var tutorial = $Tutorial
 @onready var tutorial_collision = $Tutorial/StaticBody2D
 @onready var halal_music = $Halal_music
+@onready var ui_ux = $UI_UX_Canvas/UI_UX
+@onready var mob_area = $Mob_Area
+@onready var door = $door
+@onready var line_2d = $Line2D
+@onready var meet_me_outside_dialogue = $Mob_Area/meet_me_outside_dialogue
+@onready var meet_me_outside_label = $Mob_Area/meet_me_outside_label
 
 var dialogue_dr_finished = false
 var dialogue_me_finished = false
@@ -30,16 +36,21 @@ var start_doc = false
 var timer_started = false
 var doc_timer_started = false
 var is_tutorial = false
+var did_dialogue1_start = false
+var did_dialogue2_start = false
+var is_meet_me = false
 var coins
+var level
+var level_part
+var required_coins
+
 
 func _ready():
-
 	camera_2d.zoom = Vector2(1.2, 1.2)
 	camera_2d.limit_left = -20
 	camera_2d.limit_right = 1620
 	camera_2d.limit_bottom = 1222
 	camera_2d.limit_top = -24
-	update_label_position()
 	label.visible = false  # Ensure the label is initially hidden
 	var file = FileAccess.open("user://data.txt", FileAccess.READ)
 	if file:
@@ -57,16 +68,21 @@ func _ready():
 		file.close()  # Always close the file when done
 		is_first_time_playing = string_to_bool(all_lines[1])
 		coins = int(all_lines[3])
+		level = int(all_lines[4])
+		level_part = int(all_lines[5])
 		# Now you can use `all_lines` to access any part of the file later
 		print("All file lines:", all_lines)
 		if not is_first_time_playing:
+			ui_ux.show()
 			camera.queue_free()
 			tutorial_collision.queue_free()
 	else:
 		print("File could not be opened.")
+	ui_ux.coins_count.text = str(coins)+"💲"
 
 
 func _process(delta):
+	ui_ux.coins_count.text = str(coins)+"💲"
 	if is_first_time_playing:
 		paused = true
 		panel.visible = true
@@ -76,21 +92,24 @@ func _process(delta):
 			timer.start()
 			timer_started = true
 		if start_dialogue:
+			MusicManager.set_volume(50)
 			me.visible = true
-			if not dialogue_me.playing and not dialogue_me_finished:
+			if not dialogue_me.playing and not dialogue_me_finished and not did_dialogue1_start:
+				did_dialogue1_start = true
 				dialogue_me.play()
-			
+			if not doc_timer_started and not dialogue_dr.playing and dialogue_me_finished and not dialogue_dr_finished:
+				dialogue_separate_time.start()
+				doc_timer_started = true
 			if not dialogue_dr.playing and dialogue_me_finished and not dialogue_dr_finished:
-				if not doc_timer_started:
-					dialogue_separate_time.start()
-					doc_timer_started = true
-				if start_doc:
+				if start_doc and not did_dialogue2_start:
+					did_dialogue2_start = true
 					doc.visible = true
 					dialogue_dr.play()
 				
 			if dialogue_dr_finished and dialogue_me_finished:
 				skip.visible = false
 				proceed.visible = true
+				MusicManager.set_volume(80)
 			#dialogue_me.play()
 			#if not dialogue_me.playing:
 				#doc.visible = true
@@ -99,18 +118,33 @@ func _process(delta):
 				#print("lol")
 				#is_first_time_playing = false
 	if not paused:
+		
 		if is_tutorial:
 			tutorial.visible = true
 		#print(coins_label.position)
 		#print(player.position)
 		#print(player.position + coins_label.position)
-		update_label_position()
+		
+		
+		#level 0
+		if level == 0:
+			required_coins = 60
+			if coins >= required_coins and level_part == 0:
+				draw_path(player.position, mob_area.position)
+			if meet_me_outside_label.visible and player.velocity != Vector2(0,0):
+				meet_me_outside_label.hide()
+				level_part = 1
+			if coins >= required_coins and level_part == 1:
+				draw_path(player.position, door.position)
+			
+			
+		
 		if canTurnLapOn and Input.is_action_just_pressed("P"):  # "ui_select" is mapped to "P" by default in Input Map
 			canTurnLapOn = false
 			var player_x = player.position.x
 			var player_y = player.position.y
 			var coordinates = str(player_x) + " " + str(player_y)
-			var filedata = coordinates + "\n" + str(is_first_time_playing) + "\n" + str(is_tutorial) + "\n" + str(coins)
+			var filedata = coordinates + "\n" + str(is_first_time_playing) + "\n" + str(is_tutorial) + "\n" + str(coins) + "\n" + str(level) + "\n" + str(level_part)
 			var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
 			if file:
 				file.store_line(filedata)  # This will overwrite the file content
@@ -123,7 +157,7 @@ func _process(delta):
 			var player_x = player.position.x
 			var player_y = player.position.y
 			var coordinates = str(player_x) + " " + str(player_y)
-			var filedata = coordinates + "\n" +str(is_first_time_playing)  + "\n" + str(is_tutorial) + "\n" + str(coins)
+			var filedata = coordinates + "\n" +str(is_first_time_playing)  + "\n" + str(is_tutorial) + "\n" + str(coins) + "\n" + str(level) + "\n" + str(level_part)
 			var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
 			if file:
 				file.store_line(filedata)  # This will overwrite the file content
@@ -133,10 +167,13 @@ func _process(delta):
 			get_tree().change_scene_to_file("res://city.tscn")
 	else:
 		if Input.is_action_just_pressed("ui_accept"):
+
 			if dialogue_dr_finished and dialogue_me_finished:
 				paused = false
 				panel.visible = false
 				is_first_time_playing = false
+				ui_ux.show()
+				MusicManager.set_volume(80)
 				camera.queue_free()
 			elif dialogue_me_finished and not dialogue_dr_finished:
 				if not start_doc:
@@ -155,12 +192,6 @@ func _process(delta):
 	
 	
 
-func update_label_position():
-	coins_label.position.x = 175
-	if (coins_label.position.x+player.position.x) > 1191:
-		coins_label.position.x += floor((1016-(player.position.x))/1.6)
-	elif (coins_label.position.x+player.position.x) <= 1191:
-		coins_label.position.x = 175
 func _on_area_2d_body_entered(body):
 	if body.name == "Player":
 		label.visible = true
@@ -203,3 +234,29 @@ func _on_timer_timeout():
 
 func _on_dialogue_separate_time_timeout():
 	start_doc = true
+
+
+func _on_mob_area_body_entered(body):
+	if body == player:
+		if level == 0 and level_part == 0 and line_2d.points.size() != 0:
+			line_2d.clear_points()
+			paused = true
+			if MusicManager.volume_percentage > 50:
+				MusicManager.previous_volume = MusicManager.volume_percentage
+				MusicManager.set_volume(50)
+			meet_me_outside_dialogue.play()
+			meet_me_outside_label.show()
+
+
+func _on_meet_me_outside_dialogue_finished():
+	MusicManager.set_volume(MusicManager.previous_volume)
+	paused = false
+	is_meet_me = true
+
+func draw_path(pos1, pos2):
+	line_2d.clear_points()
+	line_2d.add_point(pos1)
+	line_2d.add_point(pos2)
+
+func clear_path():
+	line_2d.clear_points()

@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://dahh8bmc5os02"]
+[gd_scene load_steps=13 format=3 uid="uid://dahh8bmc5os02"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_virbn"]
 [ext_resource type="Texture2D" uid="uid://b1n6qpuu06eeo" path="res://char free/char_walk_right-ezgif.com-gif-to-sprite-converter.png" id="2_70jwv"]
-[ext_resource type="FontFile" uid="uid://bnwk4n3m2cvod" path="res://Stormfaze.otf" id="2_mrl1l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aikxn"]
 atlas = ExtResource("2_70jwv")
@@ -80,11 +79,6 @@ animations = [{
 radius = 36.25
 height = 103.75
 
-[sub_resource type="LabelSettings" id="LabelSettings_gocdv"]
-font = ExtResource("2_mrl1l")
-font_size = 64
-font_color = Color(0, 0, 0, 1)
-
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(1.6, 1.6)
 script = ExtResource("1_virbn")
@@ -102,12 +96,3 @@ shape = SubResource("CapsuleShape2D_rnixj")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.5, 2.5)
 limit_smoothed = true
-
-[node name="Label" type="Label" parent="Camera2D"]
-visible = false
-offset_left = 220.0
-offset_top = -240.0
-offset_right = 437.0
-offset_bottom = -162.0
-text = "500💲"
-label_settings = SubResource("LabelSettings_gocdv")

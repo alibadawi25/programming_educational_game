@@ -157,7 +157,8 @@ func check_code():
 
 	if expected_output is String:
 		var output = []
-		var command = "echo | python " + absolute_path
+		var command = 'echo | python "' + absolute_path + '"'
+		print("hello")
 		OS.execute("CMD.exe", ["/C", command], output, true)
 		output = array_to_string(output).strip_edges()
 		
@@ -166,6 +167,7 @@ func check_code():
 		else:
 			is_right = false
 			error_output = output
+
 
 	elif expected_output is Array:
 		if task.test_cases:
@@ -181,7 +183,8 @@ func check_code():
 				file.close()
 
 				# Execute Python script using redirected input
-				var command = "python " + absolute_path + " < " + input_file_path
+				var command = 'python "' + absolute_path + '" < "' + input_file_path + '"'
+
 				var output = []
 				OS.execute("CMD.exe", ["/C", command], output, true)
 				output = array_to_string(output).strip_edges()
@@ -241,15 +244,15 @@ func check_code():
 		else:
 			command_line.text = "For test case (" + array_to_string2(error_test_case) + "), you should have output \"" + str(error_expected_output) + "\", but instead you output \"" + str(error_output) + "\"."
 
-func _on_file_selected(path):
-	var output = []
-	var command = "python " + path
-	OS.execute("CMD.exe", ["/C", command], output)
-	if array_to_string(output).to_lower() == "hello world\r\n":
-		task_submission.visible = false
-		accept_dialog.visible = true
-		accept_dialog.popup_centered()
-		accept_dialog.position[1] -= 60
+#func _on_file_selected(path):
+	#var output = []
+	#var command = "python " + path
+	#OS.execute("CMD.exe", ["/C", command], output)
+	#if array_to_string(output).to_lower() == "hello world\r\n":
+		#task_submission.visible = false
+		#accept_dialog.visible = true
+		#accept_dialog.popup_centered()
+		#accept_dialog.position[1] -= 60
 
 func _on_close_button_pressed():
 	if freelancing_home.visible:
@@ -301,7 +304,8 @@ func _on_run_pressed():
 	file.close()
 
 	# Redirect input.txt to Python
-	command = "python " + absolute_path + " < " + input_file_path
+	command = 'python "' + absolute_path + '" < "' + input_file_path + '"'
+
 
 	var output = []
 	write_in_py_file()  # Ensure the user's code is written before execution
@@ -317,7 +321,7 @@ func _on_run_pressed():
 			command = ""
 		else:
 			input_pop_up.show()
-	elif "is not" in output_str.to_lower():
+	elif "not" in output_str.to_lower() and "python" in output_str.to_lower():
 		error_dialog.dialog_text = "Python is not installed on your device!\nPlease install it first."
 		error_dialog.visible = true
 	else:
@@ -384,8 +388,8 @@ func _on_vs_code_pressed():
 func open_vscode():
 	is_vs_code_on = true
 	# You can open a specific file or the whole project folder.
-
-	var command = "code" + " " + absolute_path  # Command to open VS Code with the project folder
+	var command = 'code "' + absolute_path + '"'
+	
 	var output = []
 	write_in_py_file()
 	OS.execute("CMD.exe", ["/C", command], output, true)

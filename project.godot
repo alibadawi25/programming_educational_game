@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="ProgrammingEducationalGame"
+config/name="Code For Life"
 run/main_scene="res://Home_Screen.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://Code For life (1).png"
@@ -21,10 +21,8 @@ buses/default_bus_layout="res://sfx.tres"
 
 [autoload]
 
-YtDlp="*res://addons/godot-yt-dlp/src/yt_dlp.gd"
 MusicManager="*res://MusicManager.gd"
 SFXManager="*res://SFXManager.gd"
-Controller="*res://controller.gd"
 
 [display]
 
@@ -151,5 +149,6 @@ controller-left={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

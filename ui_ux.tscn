@@ -1,0 +1,105 @@
+[gd_scene load_steps=10 format=3 uid="uid://bryn8ko8rjs8f"]
+
+[ext_resource type="Script" path="res://ui_ux.gd" id="1_8t53e"]
+[ext_resource type="LabelSettings" uid="uid://cq3iwpfqli02o" path="res://coins.tres" id="1_w5qpt"]
+[ext_resource type="FontFile" uid="uid://bnwk4n3m2cvod" path="res://Stormfaze.otf" id="2_h1d6k"]
+[ext_resource type="StyleBox" uid="uid://qvk5pbu253vp" path="res://HomeButtonNorm.tres" id="4_bt55h"]
+[ext_resource type="StyleBox" uid="uid://cx3dhrk2u0a8t" path="res://HomeButtonHover.tres" id="5_l2n33"]
+[ext_resource type="StyleBox" uid="uid://b6mpyg5jku6na" path="res://Focus.tres" id="6_kboqh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ntx4k"]
+content_margin_top = 16.0
+content_margin_right = 16.0
+draw_center = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_gwtwy"]
+font = ExtResource("2_h1d6k")
+font_size = 24
+font_color = Color(0, 0, 0, 1)
+outline_size = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_doa1l"]
+font = ExtResource("2_h1d6k")
+font_size = 24
+font_color = Color(0, 0, 0, 1)
+outline_size = 4
+
+[node name="UI_UX" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_8t53e")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="coins_count" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_bottom = 128.0
+grow_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ntx4k")
+text = "0💲"
+label_settings = ExtResource("1_w5qpt")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Mission Card" type="VBoxContainer" parent="."]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 512.0
+offset_bottom = 717.0
+theme_override_constants/separation = 8
+
+[node name="nav_button" type="VBoxContainer" parent="Mission Card"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Mission" type="Label" parent="Mission Card/nav_button"]
+layout_mode = 2
+text = "Mission:"
+label_settings = SubResource("LabelSettings_gwtwy")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Desc" type="Label" parent="Mission Card/nav_button"]
+visible = false
+layout_mode = 2
+text = "Get 60$, and save your mom!"
+label_settings = SubResource("LabelSettings_doa1l")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="Mission Card"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("4_bt55h")
+theme_override_styles/hover = ExtResource("5_l2n33")
+theme_override_styles/pressed = ExtResource("5_l2n33")
+theme_override_styles/focus = ExtResource("6_kboqh")
+text = "▼"
+
+[node name="NavButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 512.0
+offset_bottom = 92.0
+flat = true
+
+[connection signal="pressed" from="Mission Card/Button" to="." method="_on_button_pressed"]

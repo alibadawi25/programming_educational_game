@@ -270,6 +270,7 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="Task_submission" type="ColorRect" parent="."]
+visible = false
 offset_left = -960.0
 offset_top = -544.0
 offset_right = 960.0

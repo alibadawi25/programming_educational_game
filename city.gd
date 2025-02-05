@@ -16,6 +16,7 @@ extends Node2D
 @onready var player_camera_2d = $Player/Camera2D
 @onready var halal_music = $Halal_music
 @onready var wasted_screen = $"CanvasLayer/Wasted Screen"
+@onready var ui_ux = $CanvasLayer/UI_UX
 
 @onready var point = $MapAiChasePoints/point
 @onready var point_2 = $MapAiChasePoints/point2
@@ -23,9 +24,13 @@ extends Node2D
 @onready var point_4 = $MapAiChasePoints/point4
 @onready var point_5 = $MapAiChasePoints/point5
 @onready var point_6 = $MapAiChasePoints/point6
+@onready var line_2d = $Line2D
 
 @onready var points = [point, point_2, point_3, point_4, point_5, point_6]
-
+@onready var doctor = $Doctor
+@onready var your_mom_is_fine_dialogue = $Doctor/your_mom_is_fine_dialogue
+@onready var your_mom_is_fine_label = $Doctor/your_mom_is_fine_label
+@onready var no_money = $Doctor/no_money
 
 var paused = false
 var can_enter_car = false
@@ -40,7 +45,10 @@ var car_pos
 var old_car_pos
 var ai_stop = false
 var stop_time = 0
+var coordinates
 var coins
+var level
+var level_part
 var is_tutorial = false
 var is_first_time_playing = false
 # Called when the node enters the scene tree for the first time.
@@ -58,17 +66,37 @@ func _ready():
 			all_lines.append(file.get_line())  # Append each line to the list
 			
 		file.close()  # Always close the file when done
+		coordinates = all_lines[0]
 		coins = int(all_lines[3])
+		level = int(all_lines[4])
+		level_part = int(all_lines[5])
 		# Now you can use `all_lines` to access any part of the file later
 		print("All file lines:", all_lines)
 			
 	else:
 		print("File could not be opened.")
 
+	ui_ux.coins_count.text = str(coins)+"💲"
+	
+	if level == 0 and level_part == 1:
+		doctor.show()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
+	ui_ux.coins_count.text = str(coins)+"💲"
 	if not paused:
+		
+		# level 0
+		if level == 0 and level_part == 1:
+			draw_path(player.position, doctor.position)
+		
+		if your_mom_is_fine_label.visible and player.velocity != Vector2(0,0):
+			your_mom_is_fine_label.hide()
+			level_part = 0
+			doctor.hide()
+			clear_path()
+			
+			
+			
 		if not ai_stop or car_ai.chase:
 			if not siren.playing: 
 				siren.play()
@@ -121,7 +149,17 @@ func _process(delta):
 			is_in_car = false
 			
 		if can_enter_house and Input.is_action_just_pressed("E"):
+			var filedata = coordinates + "\n" + str(is_first_time_playing) + "\n" + str(is_tutorial) + "\n" + str(coins) + "\n" + str(level) + "\n" + str(level_part)
+			
+			var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
+			if file:
+				file.store_line(filedata)  # This will overwrite the file content
+				file.close()  # Always close the file when done
+			else:
+				print("Failed to open file.")
+				
 			get_tree().change_scene_to_file("res://room.tscn")
+
 		
 		if is_in_car:
 			# Handle camera shake
@@ -284,3 +322,39 @@ func _on_enter_house_area_body_exited(body):
 	if body.name == "Player" and player.visible:
 		enter_label.visible = false
 		can_enter_house = false
+
+
+func _on_doctor_area_body_entered(body):
+	if body == player:
+		if level == 0 and level_part == 1 and coins >= 60:
+			paused = true
+			if MusicManager.volume_percentage > 50:
+				MusicManager.previous_volume = MusicManager.volume_percentage
+				MusicManager.set_volume(50)
+			your_mom_is_fine_dialogue.play()
+			your_mom_is_fine_label.show()
+		else:
+			no_money.show()
+
+
+func _on_your_mom_is_fine_dialogue_finished():
+	MusicManager.set_volume(MusicManager.previous_volume)
+	paused = false
+	coins -= 60
+	level += 1
+	level_part = 0
+	ui_ux.desc.text = "You made it!\nStay tuned for more missions soon"
+
+
+func draw_path(pos1, pos2):
+	line_2d.clear_points()
+	line_2d.add_point(pos1)
+	line_2d.add_point(pos2)
+
+func clear_path():
+	line_2d.clear_points()
+
+
+func _on_doctor_area_body_exited(body):
+	if no_money.visible:
+		no_money.hide()

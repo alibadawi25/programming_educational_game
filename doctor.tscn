@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://dk1ih8ei1fvh7"]
+
+[ext_resource type="Texture2D" uid="uid://dnnkkdo6j5o4l" path="res://addons/pedro-leite-jeferson-gif.png" id="1_7t3cd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iil0t"]
+atlas = ExtResource("1_7t3cd")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvfkw"]
+atlas = ExtResource("1_7t3cd")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yw67h"]
+atlas = ExtResource("1_7t3cd")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hptl"]
+atlas = ExtResource("1_7t3cd")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tn342"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iil0t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jvfkw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yw67h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hptl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r8foc"]
+radius = 8.0
+
+[node name="Doctor" type="StaticBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tn342")
+frame_progress = 0.717997
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 1)
+shape = SubResource("CapsuleShape2D_r8foc")

@@ -2,7 +2,7 @@ extends Node2D
 
 const DATA_FILE_PATH = "user://data.txt"
 const TASKS_FILE_PATH = "user://tasks.txt"
-const INITIAL_DATA = "800 400\ntrue\nfalse\n0\n"  # Initial data
+const INITIAL_DATA = "800 400\ntrue\nfalse\n0\n0\n"  # Initial data
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

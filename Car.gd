@@ -19,6 +19,11 @@ var min_speed = 0
 var steering_angle = 0.0
 var target_steering_angle = 0.0
 
+func _ready():
+	# Initialize steering angle based on the initial rotation of the car
+	steering_angle = rotation
+	target_steering_angle = rotation
+
 func _physics_process(delta):
 	if not city.paused:
 		min_speed = 0

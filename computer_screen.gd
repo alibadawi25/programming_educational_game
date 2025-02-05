@@ -67,6 +67,9 @@ var loading_time = 1.0
 var is_vs_code_on = false
 var is_tutorial = false
 var is_first_time_playing = false
+var level
+var level_part
+
 func _ready():
 	absolute_path = ProjectSettings.globalize_path(CODE_FILE_PATH)  # Convert to real path
 	for keyword in BOOL_KEYWORDS:
@@ -97,6 +100,8 @@ func _ready():
 		coordinates = all_lines[0]
 		is_tutorial = string_to_bool(all_lines[2])
 		coins = int(all_lines[3])
+		level = int(all_lines[4])
+		level_part = int(all_lines[5])
 		cash.text = str(coins) + "💲" 
 		# Now you can use `all_lines` to access any part of the file later
 		print("All file lines:", all_lines)
@@ -182,7 +187,7 @@ func _on_close_button_pressed():
 
 func _on_power_off_pressed():
 	var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
-	var filedata = coordinates + "\n" + "false"  + "\n" + str(is_tutorial) + "\n" + str(coins)
+	var filedata = coordinates + "\n" + "false"  + "\n" + str(is_tutorial) + "\n" + str(coins) + "\n" + str(level) + "\n" + str(level_part)
 	if file:
 		file.store_line(filedata)  # This will overwrite the file content
 		file.close()  # Always close the file when done

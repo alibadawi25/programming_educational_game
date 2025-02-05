@@ -45,18 +45,20 @@ func toggle_pause():
 	if visible and world.paused:
 		world.paused = false
 		visible = false
+		world.ui_ux.show()
 	elif not visible and not world.paused:
 		world.paused = true
 		settings_panel.visible = false
 		main_panel.visible = true
 		visible = true
+		world.ui_ux.hide()
 
 func _on_resume_pressed():
 	toggle_pause()
 
 func _on_quit_pressed():
 	var coordinates = "800 400"
-	var filedata = coordinates + "\n" + str(world.is_first_time_playing) + "\n" + str(world.is_tutorial) + "\n" + str(world.coins)
+	var filedata = coordinates + "\n" + str(world.is_first_time_playing) + "\n" + str(world.is_tutorial) + "\n" + str(world.coins) + "\n" + str(world.level)+ "\n" + str(world.level_part)
 	var file = FileAccess.open("user://data.txt", FileAccess.WRITE)
 	if file:
 		file.store_line(filedata)  # This will overwrite the file content
