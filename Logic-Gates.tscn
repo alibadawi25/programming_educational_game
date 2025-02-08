@@ -1,0 +1,113 @@
+[gd_scene load_steps=10 format=3 uid="uid://cw7gkmgrk7yby"]
+
+[ext_resource type="Texture2D" uid="uid://cg66w1yyn1bvj" path="res://Logic-Gates-Tile-Map.png" id="2_7ngsx"]
+[ext_resource type="Texture2D" uid="uid://da3gd8qydr0ks" path="res://Wires-Tile-Map.png" id="3_rh0v5"]
+[ext_resource type="PackedScene" uid="uid://cecec55pdpgnc" path="res://object_holder.tscn" id="4_rwgy0"]
+[ext_resource type="PackedScene" uid="uid://crrk7mhop3qia" path="res://Output.tscn" id="5_m68h3"]
+[ext_resource type="PackedScene" uid="uid://bt31t2fbp6fkh" path="res://input.tscn" id="6_v1t0f"]
+[ext_resource type="PackedScene" uid="uid://gb038yrbtgob" path="res://inventory.tscn" id="7_ahdyh"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4l2oi"]
+texture = ExtResource("2_7ngsx")
+0:0/0 = 0
+0:0/0/custom_data_0 = "lol"
+1:0/0 = 0
+1:0/0/custom_data_0 = "lol"
+0:1/0 = 0
+0:1/0/custom_data_0 = "lol"
+1:1/0 = 0
+1:1/0/custom_data_0 = "lol"
+0:2/0 = 0
+1:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+0:6/0 = 0
+0:6/0/z_index = 1
+1:6/0 = 0
+1:6/0/z_index = 1
+0:7/0 = 0
+0:7/0/z_index = 1
+1:7/0 = 0
+1:7/0/z_index = 1
+3:2/0 = 0
+3:3/0 = 0
+4:2/0 = 0
+4:3/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ylpfr"]
+texture = ExtResource("3_rh0v5")
+0:0/0 = 0
+2:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+2:1/0 = 0
+4:1/0 = 0
+0:2/0 = 0
+2:2/0 = 0
+4:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_037bh"]
+custom_data_layer_0/name = "lol"
+custom_data_layer_0/type = 4
+sources/6 = SubResource("TileSetAtlasSource_4l2oi")
+sources/7 = SubResource("TileSetAtlasSource_ylpfr")
+
+[node name="Logic-Gate" type="Node2D"]
+
+[node name="Gates" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 800.0
+mouse_filter = 2
+color = Color(0.317647, 0.0196078, 0.458824, 1)
+
+[node name="TileMap" type="TileMap" parent="Gates"]
+position = Vector2(0, 104)
+scale = Vector2(4, 4)
+tile_set = SubResource("TileSet_037bh")
+format = 2
+layer_0/tile_data = PackedInt32Array(131080, 131079, 0, 262152, 7, 1342177280, 458760, 131079, 0, 131081, 6, 6, 458761, 131079, 0, 131082, 65542, 6, 196618, 65542, 7, 458762, 131079, 0, 131083, 131079, 1, 196619, 131079, 2, 458763, 131079, 0, 131084, 131079, 1, 196620, 131079, 2, 458764, 131079, 0, 131085, 7, 1, 196621, 7, 2, 131078, 131079, 0, 262150, 131079, 0, 458758, 131079, 0, 131079, 131079, 0, 262151, 131079, 0, 458759, 131079, 0, 196616, 7, 268435456, 196617, 6, 7)
+layer_1/tile_data = PackedInt32Array(393229, 7, 1073741824, 458765, 131079, 0, 393230, 131079, 0, 458766, 131079, 0, 393231, 131079, 0, 458767, 131079, 0, 393232, 131079, 0, 458768, 131079, 0, 393233, 6, 6, 458769, 6, 7, 196621, 131079, 1342177280, 262157, 131079, 1342177280, 327693, 131079, 1342177280, 393234, 65542, 6, 458770, 65542, 7, 393235, 131079, 1, 458771, 131079, 2, 393236, 131079, 1, 458772, 131079, 2, 393237, 131079, 1, 458773, 131079, 2)
+
+[node name="Input" parent="Gates" instance=ExtResource("6_v1t0f")]
+position = Vector2(288, 216)
+value = true
+edittable = false
+
+[node name="Input2" parent="Gates" instance=ExtResource("6_v1t0f")]
+position = Vector2(288, 344)
+value = true
+edittable = false
+
+[node name="Input3" parent="Gates" instance=ExtResource("6_v1t0f")]
+position = Vector2(288, 536)
+edittable = false
+
+[node name="Output" parent="Gates" node_paths=PackedStringArray("input_node") instance=ExtResource("5_m68h3")]
+position = Vector2(1408, 504)
+input_node = NodePath("../Object_holder2")
+
+[node name="Object_holder" parent="Gates" node_paths=PackedStringArray("input_node", "input_2_node") instance=ExtResource("4_rwgy0")]
+position = Vector2(576, 232)
+input_node = NodePath("../Input")
+input_2_node = NodePath("../Input2")
+
+[node name="Object_holder2" parent="Gates" node_paths=PackedStringArray("input_node", "input_2_node") instance=ExtResource("4_rwgy0")]
+position = Vector2(1088, 488)
+input_node = NodePath("../Object_holder")
+input_2_node = NodePath("../Input3")
+
+[node name="Inventory" type="ColorRect" parent="."]
+offset_top = 800.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.52549, 0.0627451, 0.745098, 1)
+
+[node name="Inventory" parent="Inventory" instance=ExtResource("7_ahdyh")]
+position = Vector2(64, 24)
+and_gate_start_count = 1
+or_gate_start_count = 1

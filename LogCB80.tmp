@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw7gkmgrk7yby"]
+
+[ext_resource type="PackedScene" uid="uid://c570j18rmw885" path="res://and_gate.tscn" id="1_6ogvm"]
+[ext_resource type="PackedScene" uid="uid://bxxhdh8mybfsj" path="res://wire.tscn" id="2_odjy5"]
+
+[node name="Control" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.494118, 0.27451, 0.984314, 1)
+
+[node name="AND-Gate" parent="." instance=ExtResource("1_6ogvm")]
+position = Vector2(440, 576)
+
+[node name="Wire" parent="." instance=ExtResource("2_odjy5")]
+position = Vector2(584, 680)
+value = null

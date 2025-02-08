@@ -23,6 +23,7 @@ buses/default_bus_layout="res://sfx.tres"
 
 MusicManager="*res://MusicManager.gd"
 SFXManager="*res://SFXManager.gd"
+Inventory="*res://inventory.gd"
 
 [display]
 

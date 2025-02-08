@@ -4392,7 +4392,6 @@ vertical_alignment = 1
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="UI_UX" parent="CanvasLayer" instance=ExtResource("13_ma2q3")]
-visible = false
 
 [node name="Control" parent="CanvasLayer" instance=ExtResource("15_3p2sk")]
 visible = false

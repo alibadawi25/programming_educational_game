@@ -80,6 +80,8 @@ func _ready():
 	
 	if level == 0 and level_part == 1:
 		doctor.show()
+	else:
+		doctor.collision_layer = 100
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	ui_ux.coins_count.text = str(coins)+"💲"
@@ -93,6 +95,7 @@ func _process(delta):
 			your_mom_is_fine_label.hide()
 			level_part = 0
 			doctor.hide()
+			doctor.collision_layer = 100
 			clear_path()
 			
 			

@@ -124,6 +124,26 @@ var levels = [
 		],
 		"is_solved": false,
 		"outcome": 20
-	}
+	},
+	{
+	"id": 7,
+	"title": "The Bridge of Words",
+	"description": "In the kingdom of Lexiconia, a magical bridge connects two lands. But this bridge has a special rule: it only extends as far as the length of the word spoken by the traveler. If the word is too short, the traveler falls into the Abyss of Silence!\n\nThe Guardian of the Bridge needs your help to calculate the exact length of words before travelers attempt to cross.\n\nYour task is to write a program that takes a word as input and prints its length.\n\nExample:\n-------------------\n\nInput: \"wisdom\"\nOutput: 6",
+	"test_cases": [
+		["wisdom"],
+		["legend"],
+		["pathway"],
+		["echo"]
+	],
+	"expected_outputs": [
+		"6",
+		"6",
+		"7",
+		"4"
+	],
+	"is_solved": false,
+	"outcome": 10
+}
+
 ]
 

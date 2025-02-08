@@ -71,7 +71,7 @@ theme_override_constants/separation = 16
 
 [node name="Mission" type="Label" parent="Mission Card/nav_button"]
 layout_mode = 2
-text = "Mission:"
+text = "Objective:"
 label_settings = SubResource("LabelSettings_gwtwy")
 horizontal_alignment = 1
 autowrap_mode = 3
@@ -95,6 +95,7 @@ theme_override_styles/focus = ExtResource("6_kboqh")
 text = "▼"
 
 [node name="NavButton" type="Button" parent="."]
+visible = false
 layout_mode = 2
 offset_left = 16.0
 offset_top = 16.0
